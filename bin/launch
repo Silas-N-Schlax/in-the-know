@@ -19,6 +19,7 @@ require 'rqrcode'
 
 APP_ROOT = File.expand_path('..', __dir__)
 QR_PATH = File.join(APP_ROOT, 'join-qr.png')
+PUBLIC_URL_PATH = File.join(APP_ROOT, 'tmp', 'public_url')
 NGROK_API = URI('http://127.0.0.1:4040/api/tunnels')
 LOG_DIR = File.join(APP_ROOT, 'log')
 
@@ -64,6 +65,7 @@ fail!("Port #{options[:port]} is already in use. Try: bin/launch --port 3001") i
 
 env = { 'RAILS_ENV' => 'production', 'RAILS_LOG_LEVEL' => ENV.fetch('RAILS_LOG_LEVEL', 'info') }
 FileUtils.mkdir_p(LOG_DIR)
+FileUtils.rm_f(PUBLIC_URL_PATH) # never point the QR code at last night's tunnel
 
 if options[:build]
   say 'Building JavaScript and CSS'
@@ -77,6 +79,7 @@ run!(env, 'bin/rails', 'db:prepare')
 pids = []
 shutdown = lambda do
   say 'Shutting down'
+  FileUtils.rm_f(PUBLIC_URL_PATH)
   pids.each do |pid|
     Process.kill('TERM', pid)
   rescue Errno::ESRCH
@@ -101,6 +104,9 @@ say 'Opening the ngrok tunnel (logs: log/ngrok.log)'
 pids << spawn('ngrok', 'http', options[:port].to_s, '--log', File.join(LOG_DIR, 'ngrok.log'),
               chdir: APP_ROOT, out: File::NULL, err: File::NULL)
 url = wait_for('ngrok (is it signed in? run: ngrok config add-authtoken <token>)', timeout: 30) { ngrok_url(options[:port]) }
+
+# The app reads this so the lobby QR code and join link use the tunnel, not localhost.
+File.write(PUBLIC_URL_PATH, url)
 
 qr = RQRCode::QRCode.new(url)
 File.binwrite(QR_PATH, qr.as_png(size: 720, border_modules: 2).to_s)

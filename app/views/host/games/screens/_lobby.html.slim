@@ -5,7 +5,7 @@
         span.join-code__char = char
     p.lobby__how
       | Go to
-      span.lobby__url<> = request.host_with_port
+      span.lobby__url<> = screen.join_host
       | and enter the code, or scan:
     .qr = screen.join_qr_svg
     p.lobby__settings

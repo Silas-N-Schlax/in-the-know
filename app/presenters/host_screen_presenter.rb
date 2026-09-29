@@ -23,7 +23,12 @@ class HostScreenPresenter
   end
 
   def join_url
-    @view.new_join_url(code: game.code)
+    PublicUrl.for(@view.new_join_path(code: game.code), fallback: @view.request.base_url)
+  end
+
+  # What to tell the room to type: the public host without the scheme, e.g. abc123.ngrok-free.app.
+  def join_host
+    URI(PublicUrl.current || @view.request.base_url).then { |uri| [uri.host, (uri.port unless uri.default_port == uri.port)].compact.join(':') }
   end
 
   def join_qr_svg

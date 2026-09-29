@@ -14,7 +14,7 @@
         .setup-link data-controller="copy"
           label.form-label for="setup_link" Setup link
           .setup-link__row
-            input#setup_link.form-control.setup-link__input readonly=true data-copy-target="source" value=accept_user_invitation_url(invitation_token: flash[:setup_token])
+            input#setup_link.form-control.setup-link__input readonly=true data-copy-target="source" value=PublicUrl.for(accept_user_invitation_path(invitation_token: flash[:setup_token]), fallback: request.base_url)
             button.btn.btn--primary type="button" data-action="copy#copy" data-copy-target="button" Copy
           p.form-hint Send this to #{@user.email}. It works once and expires in 7 days. You won't be able to see it again, but you can make a new one.
       - elsif @user.awaiting_setup?
