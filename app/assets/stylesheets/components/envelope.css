@@ -58,10 +58,12 @@
 }
 
 .envelope {
+  /* The envelope and its cards are paper objects: always light, even in dark mode. */
+  color-scheme: light;
   position: relative;
   container-type: inline-size;
   inline-size: min(100%, 38rem);
-  aspect-ratio: 7 / 5;
+  aspect-ratio: 6 / 5;
   margin-block: 16rem var(--op-space-large);
   transition: translate var(--envelope-card-time) cubic-bezier(0.55, 0, 0.8, 0.2), rotate var(--envelope-card-time) cubic-bezier(0.55, 0, 0.8, 0.2);
 
@@ -135,8 +137,15 @@
     }
   }
 
-  /* An index card: ruled lines, a red header rule, the secret in highlighter. */
+  /*
+   * An index card tinted in the player's ink, with the category as a header above its rule.
+   * Everything inside the envelope stays in light colors, even in dark mode.
+   */
   .envelope__card {
+    --card-ink: var(--player-ink-light, var(--itk-ink));
+    --card-paper: color-mix(in srgb, var(--card-ink) 9%, hsl(42deg 60% 99%));
+    --card-rule: color-mix(in srgb, var(--card-ink) 22%, hsl(42deg 60% 99%));
+
     position: absolute;
     z-index: 2;
     inset-inline: 5%;
@@ -144,50 +153,43 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    padding: 7% 6%;
+    gap: 0.2rem;
+    padding: 5% 6% 6%;
     border-radius: var(--op-radius-small);
     text-align: center;
-    background-color: var(--itk-paper-raised);
-    background-image:
-      linear-gradient(to bottom, transparent 21%, var(--itk-margin-red) 21%, var(--itk-margin-red) calc(21% + 2px), transparent calc(21% + 2px)),
-      repeating-linear-gradient(to bottom, transparent 0, transparent 2.3rem, var(--itk-rule) 2.3rem, var(--itk-rule) calc(2.3rem + 1px));
+    color: hsl(236deg 14% 30%);
+    background-color: var(--card-paper);
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 2.3rem, var(--card-rule) 2.3rem, var(--card-rule) calc(2.3rem + 1px));
+    background-position: 0 1.2rem;
     box-shadow: 0 1px 2px hsl(236deg 30% 10% / 18%);
     transform: translateY(0) scale(1);
     transition: transform var(--envelope-card-time) var(--itk-ease-out), box-shadow var(--envelope-card-time) var(--itk-ease-out);
   }
 
   .envelope__category {
-    margin: 0;
+    align-self: stretch;
+    margin: 0 0 auto;
+    padding-block-end: 0.4rem;
+    border-block-end: 2px solid var(--card-ink);
     font-size: var(--op-font-small);
-    color: var(--itk-pencil-soft);
-  }
-
-  .envelope__role {
-    margin: 0;
-    padding: 0.05em 0.4em;
-    font-family: var(--itk-font-hand);
-    font-size: clamp(var(--op-font-large), 7cqi, var(--op-font-2x-large));
-    font-weight: var(--op-font-weight-bold);
-    color: var(--itk-on-highlight);
-    background-color: var(--itk-highlight-pink);
-    rotate: -2deg;
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--card-ink);
+    background-color: var(--card-paper);
   }
 
   .envelope__label {
     margin: 0;
-    color: var(--itk-pencil);
+    color: hsl(236deg 14% 30%);
   }
 
   .envelope__secret {
-    margin: 0;
+    margin: 0 0 auto;
     max-inline-size: 100%;
     font-family: var(--itk-font-hand);
-    font-size: clamp(3.2rem, 12cqi, 6.4rem);
+    font-size: clamp(2.8rem, 10.5cqi, 6rem);
     font-weight: var(--op-font-weight-extra-bold);
     font-variation-settings: 'INFM' 45, 'BNCE' 20;
-    line-height: 1.3;
+    line-height: 1.25;
     letter-spacing: -0.02em;
     overflow-wrap: anywhere;
     text-wrap: balance;
@@ -196,14 +198,48 @@
   /* Inline highlighter that follows the text across line breaks instead of one block behind it. */
   .envelope__mark {
     padding: 0.02em 0.18em;
-    color: var(--itk-on-highlight);
-    background-color: var(--itk-highlight-yellow);
+    color: hsl(236deg 40% 14%);
+    background-color: hsl(52deg 100% 66%);
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
 
-  .envelope__card--imposter .envelope__mark {
-    background-color: var(--itk-highlight-pink);
+  /*
+   * The imposter's card: a torn scrap of hot-pink paper with a rubber stamp across it,
+   * so it never looks like an ordinary card at a glance.
+   */
+  .envelope__card--imposter {
+    --card-ink: hsl(333deg 80% 32%);
+    --card-paper: hsl(333deg 100% 80%);
+    --card-rule: hsl(333deg 80% 70%);
+
+    padding-block-start: 9%;
+    clip-path: polygon(0 3%, 5% 0, 10% 3%, 15% 0, 20% 3%, 25% 0, 30% 3%, 35% 0, 40% 3%, 45% 0, 50% 3%, 55% 0, 60% 3%, 65% 0, 70% 3%, 75% 0, 80% 3%, 85% 0, 90% 3%, 95% 0, 100% 3%, 100% 100%, 0 100%);
+
+    .envelope__label {
+      color: var(--card-ink);
+      font-weight: var(--op-font-weight-semi-bold);
+    }
+
+    .envelope__mark {
+      color: var(--card-ink);
+      background-color: hsl(0deg 0% 100%);
+    }
+  }
+
+  .envelope__stamp {
+    margin: 0.2em 0 0.1em;
+    padding: 0.1em 0.45em;
+    border: 0.18em solid var(--card-ink);
+    border-radius: var(--op-radius-small);
+    font-family: var(--itk-font-hand);
+    font-size: clamp(var(--op-font-medium), 6cqi, var(--op-font-x-large));
+    font-weight: var(--op-font-weight-black);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--card-ink);
+    opacity: 0.9;
+    rotate: -7deg;
   }
 }
 

@@ -9,7 +9,9 @@
     .envelope__card class="envelope__card--#{@seat.role}" aria-live="polite"
       p.envelope__category = @seat.round.category
       - if @seat.imposter?
-        p.envelope__role You're the imposter
+        p.envelope__stamp
+          span aria-hidden="true" Imposter
+          span.sr-only You're the imposter
         p.envelope__label Your hint
       - else
         p.envelope__label The word is
