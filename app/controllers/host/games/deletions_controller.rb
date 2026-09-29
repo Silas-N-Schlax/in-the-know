@@ -2,7 +2,7 @@
 
 module Host
   module Games
-    # Deleting a game for good, after typing its code and confirming it can't be undone.
+    # Deleting a game for good, after typing its code.
     class DeletionsController < BaseController
       def new
         @deletion = DeleteGameForm.new(game: current_game)
@@ -23,7 +23,7 @@ module Host
       private
 
       def deletion_params
-        params.expect(delete_game: %i[code confirmed]).to_h.symbolize_keys
+        params.expect(delete_game: [:code]).to_h.symbolize_keys
       end
     end
   end

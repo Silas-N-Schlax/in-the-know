@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
-# The "are you sure" for deleting a game: type the game's code and tick that it can't be undone.
+# The "are you sure" for deleting a game: type the game's code to prove you mean this one.
 class DeleteGameForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
   attribute :code, :string
-  attribute :confirmed, :boolean, default: false
 
   attr_reader :game
 
   validate :code_matches
-  validates :confirmed, acceptance: { accept: true, message: "Check the box to confirm you can't undo this." }
 
   def initialize(game:, **attributes)
     @game = game

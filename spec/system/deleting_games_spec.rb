@@ -12,12 +12,11 @@ RSpec.describe 'Deleting games', type: :system do
     within(data_test(game)) { click_on 'Delete' }
   end
 
-  it 'deletes a finished game once the code is typed and the warning is checked' do
+  it 'deletes a finished game once its code is typed' do
     game = create(:game, host:, code: 'WXYZ', status: :finished, finished_at: 1.hour.ago)
 
     open_delete_for(game, tab: 'finished')
     fill_in 'Type the game code', with: 'wxyz'
-    check "I understand this can't be undone"
     click_on 'Delete game'
 
     expect(page).to have_content('Game WXYZ was deleted.')
@@ -29,21 +28,9 @@ RSpec.describe 'Deleting games', type: :system do
 
     open_delete_for(game)
     fill_in 'Type the game code', with: 'ABCD'
-    check "I understand this can't be undone"
     click_on 'Delete game'
 
     expect(page).to have_content("That code doesn't match this game")
-    expect(Game.exists?(game.id)).to be(true)
-  end
-
-  it 'refuses when the warning is not checked' do
-    game = create(:game, host:, code: 'WXYZ')
-
-    open_delete_for(game)
-    fill_in 'Type the game code', with: 'WXYZ'
-    click_on 'Delete game'
-
-    expect(page).to have_content("Check the box to confirm you can't undo this")
     expect(Game.exists?(game.id)).to be(true)
   end
 
@@ -62,13 +49,11 @@ RSpec.describe 'Deleting games', type: :system do
     open_delete_for(game)
     within(data_test('modal-content')) do
       fill_in 'Type the game code', with: 'NOPE'
-      check "I understand this can't be undone"
-      click_on 'Delete game'
+        click_on 'Delete game'
       expect(page).to have_content("That code doesn't match this game")
 
       fill_in 'Type the game code', with: 'WXYZ'
-      check "I understand this can't be undone"
-      click_on 'Delete game'
+        click_on 'Delete game'
     end
 
     expect(page).to have_content('Game WXYZ was deleted.')
