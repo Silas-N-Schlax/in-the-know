@@ -72,6 +72,16 @@ RSpec.describe Game, type: :model do
       expect(build(:game, category_mode: :random, category: nil)).to be_valid
     end
 
+    it 'plays every difficulty by default' do
+      expect(Game.new.difficulties).to eq([0, 1, 2])
+    end
+
+    it 'needs at least one difficulty and only real ones' do
+      expect(build(:game, difficulties: [])).not_to be_valid
+      expect(build(:game, difficulties: [3])).not_to be_valid
+      expect(build(:game, difficulties: ['', '2', '0'])).to have_attributes(difficulties: [0, 2])
+    end
+
     it 'only allows the offered discussion lengths' do
       expect(build(:game, discussion_seconds: 45)).not_to be_valid
       expect(build(:game, discussion_seconds: 60)).to be_valid

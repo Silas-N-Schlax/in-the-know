@@ -31,8 +31,9 @@ module Host
     private
 
     def game_params
-      params.expect(game: %i[player_cap round_count rotations_per_round imposter_min imposter_max
-                             category_choice reveal_on_vote_out vote_visibility pacing discussion_seconds])
+      params.expect(game: [:player_cap, :round_count, :rotations_per_round, :imposter_min, :imposter_max,
+                           :category_choice, :reveal_on_vote_out, :vote_visibility, :pacing, :discussion_seconds,
+                           { difficulties: [] }])
     end
   end
 end

@@ -37,12 +37,21 @@ RSpec.describe RoundDealer do
   end
 
   it "uses the game's category and never repeats a word" do
-    game = game_with_players(3, category: 'Around the House')
+    game = game_with_players(3, category: 'Everyday')
 
     words = Array.new(10) { RoundDealer.new(game).deal! }.map(&:word)
 
     expect(words.uniq.size).to eq(10)
-    expect(game.rounds.pluck(:category).uniq).to eq(['Around the House'])
+    expect(game.rounds.pluck(:category).uniq).to eq(['Everyday'])
+  end
+
+  it 'only deals words at the chosen difficulties' do
+    game = game_with_players(3, difficulties: [0])
+
+    rounds = Array.new(8) { RoundDealer.new(game).deal! }
+
+    difficulties = rounds.map { |round| WordBank.entries.find { |entry| entry.word == round.word }.difficulty }
+    expect(difficulties.uniq).to eq([0])
   end
 
   it 'draws from any category when the game is random' do

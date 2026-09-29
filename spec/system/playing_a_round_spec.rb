@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Playing a round', type: :system do
   let(:host) { create(:user) }
-  let!(:game) { create(:game, host:, round_count: 1, rotations_per_round: 2, pacing: :manual, category: 'Around the House') }
+  let!(:game) { create(:game, host:, round_count: 1, rotations_per_round: 2, pacing: :manual, category: 'Everyday') }
 
   def join_as(name, avatar)
     using_session(name) do

@@ -5,7 +5,7 @@ FactoryBot.define do
     game factory: %i[game in_progress]
     sequence(:number)
     word { 'Pancake' }
-    category { 'Things You Can Eat' }
+    category { 'Food & Drink' }
     imposter_hint { 'Flat and round' }
     status { :discussing }
   end

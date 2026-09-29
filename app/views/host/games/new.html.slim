@@ -24,7 +24,7 @@
 
       .setup__range
         p.setup__label Imposters each round
-        p.form-hint Picked at random between the two. At most 1 for every 3 players, up to 6.
+        p.form-hint Picked at random between the two. You get 1 for every 3 players, up to 6.
         = f.input :imposter_min, as: :segmented_control, label: 'Fewest', collection: pill_options(1..Game::IMPOSTER_LIMIT),
           full_width: true, wrapper_html: { data: { testid: 'imposter_min' } },
           input_html: { data: { action: 'imposter-range#refresh', imposter_range_target: 'min' } }
@@ -40,6 +40,10 @@
         collection: pill_options(Game::ROTATION_OPTIONS), full_width: true, wrapper_html: { data: { testid: 'rotations_per_round' } }
       = f.input :category_choice, as: :select, label: 'Category', collection: category_options, include_blank: false,
         hint: 'Everyone sees the category. Random picks a new one each round.'
+      = f.input :difficulties, as: :segmented_check_boxes, label: 'Word difficulty',
+        collection: Game::DIFFICULTIES.map { |level, name| [name, level] }, full_width: true,
+        wrapper_html: { data: { testid: 'difficulties' } },
+        hint: 'Pick any mix. Each round draws a word from the levels you pick.'
 
     section.setup__section
       h2.setup__heading Voting

@@ -45,10 +45,15 @@ class RoundDealer
     used = @game.rounds.pluck(:word)
     category = @game.category_random? ? random_category(used) : @game.category
 
-    WordBank.pick(category:, except: used) || WordBank.pick(except: used) || WordBank.pick
+    difficulties = @game.difficulties
+
+    WordBank.pick(category:, except: used, difficulties:) ||
+      WordBank.pick(except: used, difficulties:) ||
+      WordBank.pick(difficulties:) ||
+      WordBank.pick
   end
 
   def random_category(used)
-    WordBank.categories.shuffle.find { |category| WordBank.pick(category:, except: used) }
+    WordBank.categories.shuffle.find { |category| WordBank.pick(category:, except: used, difficulties: @game.difficulties) }
   end
 end

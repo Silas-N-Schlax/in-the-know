@@ -74,6 +74,7 @@ Then:
 | Rounds | 1–15 |
 | Trips around the table per round | 2, 3, 5 or 7 |
 | Category | One of the categories, or Random (a new one each round) |
+| Word difficulty | Any mix of Easy, Medium and Hard |
 | Votes | Open (shows who voted for whom) or Anonymous |
 | When someone is voted out | Reveal their role, or keep it secret |
 | Discussion | Timed (30s, 1m, 2m, 3m or 5m, then voting opens automatically) or Manual |
@@ -90,7 +91,7 @@ bundle exec rspec
 - **Tests** are written test-first: RSpec system specs for flows, plus model and service specs for the game rules (`spec/services`). JS specs (`:js`) run headless Chromium through Playwright.
 - **Plans:** `docs/plans/` holds the BRAVE breakdown and spec plan.
 - **Design:** `DESIGN.md` describes the visual system ("Passed Notes"). CSS is BEM on top of the Optics design system, in `app/assets/stylesheets`.
-- **Words:** `config/words.json` has about 2,600 entries in 12 categories, each shaped `{ word, category, lang, imposter_hint }`.
+- **Words:** `config/words.json` has about 2,400 entries in 10 broad categories, each shaped `{ word, category, lang, imposter_hint, difficulty }`. Hints are a loose nudge ("RV → vehicle"), and `difficulty` runs 0 (easy) to 2 (hard). The host picks which difficulties a game uses.
 - **Avatars:** `app/assets/images/avatars/*.png`. See `AVATARS.md` there for names. Placeholders come from `node script/draw_placeholder_avatars.mjs`; drop in your own PNGs with the same names.
 
 ### How it fits together

@@ -9,7 +9,7 @@ FactoryBot.define do
     imposter_min { 1 }
     imposter_max { 1 }
     category_mode { :fixed }
-    category { 'Things You Can Eat' }
+    category { 'Food & Drink' }
     pacing { :manual }
 
     trait :in_progress do

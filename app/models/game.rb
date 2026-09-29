@@ -13,6 +13,7 @@ class Game < ApplicationRecord
   PLAYERS_PER_IMPOSTER = 3
   IMPOSTER_LIMIT = 6
   RANDOM_CATEGORY = 'random'
+  DIFFICULTIES = { 0 => 'Easy', 1 => 'Medium', 2 => 'Hard' }.freeze
 
   belongs_to :host, class_name: 'User', inverse_of: :hosted_games
   has_many :players, dependent: :destroy
@@ -24,6 +25,8 @@ class Game < ApplicationRecord
   enum :pacing, { timed: 'timed', manual: 'manual' }, default: :timed
 
   normalizes :code, with: ->(code) { code.to_s.strip.upcase }
+  # Checkbox params arrive as strings with a blank placeholder: ['', '2', '0'] becomes [0, 2].
+  normalizes :difficulties, with: ->(levels) { Array(levels).compact_blank.map(&:to_i).uniq.sort }
 
   before_validation :assign_code, on: :create
   before_save :stamp_finished_at, if: -> { will_save_change_to_status?(to: 'finished') }
@@ -36,7 +39,9 @@ class Game < ApplicationRecord
   validates :imposter_min, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :imposter_max, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validate :imposter_range_fits_player_cap
-  validate :category_exists, if: :category_fixed?
+  validate :category_exists, if: -> { category_fixed? && will_save_change_to_category? }
+  validates :difficulties, presence: { message: 'need at least one level picked' }
+  validate :difficulties_exist
 
   scope :open, -> { where.not(status: :finished) }
   scope :newest_first, -> { order(created_at: :desc) }
@@ -102,6 +107,10 @@ class Game < ApplicationRecord
       candidate = self.class.random_code
       break candidate unless self.class.open.exists?(code: candidate)
     end
+  end
+
+  def difficulties_exist
+    errors.add(:difficulties, 'include a level that does not exist') if (difficulties - DIFFICULTIES.keys).any?
   end
 
   def stamp_finished_at
