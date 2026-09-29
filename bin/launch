@@ -1,0 +1,122 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Starts In the Know for a party:
+#   1. builds assets and prepares the production database (seeding it the first time)
+#   2. boots Rails in production mode on localhost
+#   3. opens an ngrok HTTPS tunnel to it
+#   4. writes join-qr.png (replacing any old one) and prints the public link
+#
+# Usage: bin/launch [--port 3000] [--skip-build]
+# Stop everything with Ctrl-C.
+
+require 'bundler/setup'
+require 'fileutils'
+require 'json'
+require 'net/http'
+require 'optparse'
+require 'rqrcode'
+
+APP_ROOT = File.expand_path('..', __dir__)
+QR_PATH = File.join(APP_ROOT, 'join-qr.png')
+NGROK_API = URI('http://127.0.0.1:4040/api/tunnels')
+LOG_DIR = File.join(APP_ROOT, 'log')
+
+options = { port: 3000, build: true }
+OptionParser.new do |opts|
+  opts.banner = 'Usage: bin/launch [options]'
+  opts.on('-p', '--port PORT', Integer, 'Port for Rails (default 3000)') { |port| options[:port] = port }
+  opts.on('--skip-build', 'Skip yarn build and asset precompile') { options[:build] = false }
+end.parse!
+
+def say(message) = puts("\e[1;36m==>\e[0m #{message}")
+def fail!(message) = abort("\e[1;31m✗\e[0m #{message}")
+
+def run!(env, *command)
+  system(env, *command, chdir: APP_ROOT) || fail!("Failed: #{command.join(' ')}")
+end
+
+def wait_for(description, timeout: 60)
+  deadline = Time.now + timeout
+  until (result = yield)
+    fail!("Timed out waiting for #{description}") if Time.now > deadline
+    sleep 0.5
+  end
+  result
+end
+
+def responding?(port)
+  Net::HTTP.get_response(URI("http://127.0.0.1:#{port}/up")).is_a?(Net::HTTPSuccess)
+rescue StandardError
+  false
+end
+
+def ngrok_url(port)
+  tunnels = JSON.parse(Net::HTTP.get(NGROK_API)).fetch('tunnels', [])
+  tunnel = tunnels.find { |t| t['proto'] == 'https' && t.dig('config', 'addr').to_s.end_with?(port.to_s) }
+  tunnel&.fetch('public_url')
+rescue StandardError
+  nil
+end
+
+fail!('ngrok is not installed. Install it with: brew install ngrok') unless system('command -v ngrok > /dev/null')
+fail!("Port #{options[:port]} is already in use. Try: bin/launch --port 3001") if responding?(options[:port])
+
+env = { 'RAILS_ENV' => 'production', 'RAILS_LOG_LEVEL' => ENV.fetch('RAILS_LOG_LEVEL', 'info') }
+FileUtils.mkdir_p(LOG_DIR)
+
+if options[:build]
+  say 'Building JavaScript and CSS'
+  run!(env, 'yarn', 'install', '--immutable')
+  run!(env, 'bin/rails', 'assets:precompile')
+end
+
+say 'Preparing the production database'
+run!(env, 'bin/rails', 'db:prepare')
+
+pids = []
+shutdown = lambda do
+  say 'Shutting down'
+  pids.each do |pid|
+    Process.kill('TERM', pid)
+  rescue Errno::ESRCH
+    nil
+  end
+  pids.each do |pid|
+    Process.wait(pid)
+  rescue Errno::ECHILD
+    nil
+  end
+  exit
+end
+trap('INT') { shutdown.call }
+trap('TERM') { shutdown.call }
+
+say "Starting Rails on http://localhost:#{options[:port]} (logs: log/launch.log)"
+pids << spawn(env, 'bin/rails', 'server', '-p', options[:port].to_s, '-b', '127.0.0.1',
+              chdir: APP_ROOT, out: File.join(LOG_DIR, 'launch.log'), err: %i[child out])
+wait_for('Rails to boot') { responding?(options[:port]) }
+
+say 'Opening the ngrok tunnel (logs: log/ngrok.log)'
+pids << spawn('ngrok', 'http', options[:port].to_s, '--log', File.join(LOG_DIR, 'ngrok.log'),
+              chdir: APP_ROOT, out: File::NULL, err: File::NULL)
+url = wait_for('ngrok (is it signed in? run: ngrok config add-authtoken <token>)', timeout: 30) { ngrok_url(options[:port]) }
+
+qr = RQRCode::QRCode.new(url)
+File.binwrite(QR_PATH, qr.as_png(size: 720, border_modules: 2).to_s)
+
+puts
+puts qr.as_ansi(quiet_zone_size: 2)
+puts
+say "Players join at:  \e[1m#{url}\e[0m"
+say "QR code saved to: #{QR_PATH}"
+say "Host screen:      #{url}/users/sign_in   (or http://localhost:#{options[:port]})"
+say 'ngrok may show a one-time "Visit Site" page on the first visit. That is expected.'
+say 'Press Ctrl-C to stop.'
+
+system('open', QR_PATH) if RUBY_PLATFORM.include?('darwin')
+
+loop do
+  pid = Process.wait
+  fail!('Rails or ngrok stopped unexpectedly. Check log/launch.log and log/ngrok.log.') if pids.include?(pid)
+end
