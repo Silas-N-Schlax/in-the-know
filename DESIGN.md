@@ -161,8 +161,12 @@ Raised paper with the sheet shadow. `.sheet--taped` adds a tape strip at the top
 ### Critter (`.critter`)
 Round animal sticker. Its color comes from `--critter-hue` per animal, lighter in light mode and deeper in dark mode. Sizes run from x-small (1.875rem) to x-large (7rem).
 
-### Secret note (`.secret`)
-The signature moment. It unfolds from its top edge (`note-unfold`, 700ms, perspective rotateX plus clip-path). An imposter's hint is swiped in pink highlighter.
+### Envelope reveal (`.envelope`, `envelope_controller.js`)
+The signature moment. The secret arrives in an envelope seen from the back. The player's animal is the wax seal and their name is written on the front.
+- **Opening:** tapping the seal lifts the flap (420ms rotateX). An index card slides up out of the V, then comes forward to read.
+- **Closing:** "Got it" slides the card back in, closes the flap, and sends the envelope off the side of the screen before the form submits.
+- **Reduced motion:** the steps are skipped.
+- **Highlighter:** Insiders' words use yellow and imposters' hints use pink. The highlighter is an inline `box-decoration-break: clone` mark, so it follows the text across line breaks.
 
 ### Roster, leaderboard and tally
 Lines written on the rules. A player who is out is crossed through in margin red. The leader is highlighted yellow. Vote tallies show voters as small stickers, or all raccoons in anonymous mode.

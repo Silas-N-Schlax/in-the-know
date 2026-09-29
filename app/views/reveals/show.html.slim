@@ -1,16 +1,29 @@
-- content_for :title, 'Your word'
+- content_for :title, 'Your note'
 
-.phone
-  .secret class="secret--#{@seat.role}"
-    p.secret__for = @seat.name
-    p.secret__category Category: #{@seat.round.category}
-    - if @seat.imposter?
-      p.secret__role You're the imposter
-      p.secret__label Your hint
-      p.secret__word = @seat.round.imposter_hint
-      p.secret__tip Blend in. Everyone else knows the real word.
-    - else
-      p.secret__label The word is
-      p.secret__word = @seat.round.word
-      p.secret__tip Give clues that prove you know it, without giving it away.
-  = button_to 'Got it', play_reveal_path(@seat), method: :patch, class: 'btn btn--primary btn--large secret-done'
+.phone.reveal data-controller="envelope" data-envelope-state="closed"
+  p.reveal__prompt data-envelope-target="prompt" Tap the seal to open your note
+
+  .envelope
+    .envelope__back
+    .envelope__card class="envelope__card--#{@seat.role}" aria-live="polite"
+      p.envelope__category = @seat.round.category
+      - if @seat.imposter?
+        p.envelope__role You're the imposter
+        p.envelope__label Your hint
+      - else
+        p.envelope__label The word is
+      p.envelope__secret
+        span.envelope__mark = @seat.secret
+    .envelope__pocket
+      p.envelope__address
+        span.envelope__to To
+        = @seat.name
+    .envelope__flap
+    button.envelope__seal type="button" data-action="envelope#open" aria-label="Open #{@seat.name}'s note"
+      = render 'players/avatar', avatar: @seat.avatar, size: :large, label: @seat.avatar_label
+
+  .reveal__after
+    p.reveal__tip
+      = @seat.imposter? ? 'Blend in. Everyone else knows the real word.' : 'Give clues that prove you know it, without giving it away.'
+    = form_with url: play_reveal_path(@seat), method: :patch, data: { envelope_target: 'form', action: 'submit->envelope#close' } do |f|
+      = f.button 'Got it', class: 'btn btn--primary btn--large reveal__done'

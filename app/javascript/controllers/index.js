@@ -10,6 +10,9 @@ application.register("copy", CopyController)
 import CountdownController from "./countdown_controller"
 application.register("countdown", CountdownController)
 
+import EnvelopeController from "./envelope_controller"
+application.register("envelope", EnvelopeController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

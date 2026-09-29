@@ -1,0 +1,266 @@
+/*
+ * The secret arrives in an envelope, seen from the back. Tapping the seal (your animal) lifts the
+ * flap, an index card slides up out of the V and comes forward to read. "Got it" tucks it back in,
+ * seals the flap and sends the envelope off the side of the screen.
+ * States come from data-envelope-state on .reveal (see envelope_controller.js).
+ */
+.reveal {
+  --envelope-paper: light-dark(hsl(40deg 55% 90%), hsl(240deg 8% 23%));
+  --envelope-pocket: light-dark(hsl(40deg 48% 84%), hsl(240deg 8% 19%));
+  --envelope-flap: light-dark(hsl(40deg 62% 93%), hsl(240deg 8% 27%));
+  --envelope-flap-time: 420ms;
+  --envelope-card-time: 520ms;
+
+  align-items: center;
+  padding-block-start: var(--op-space-large);
+
+  .reveal__prompt {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-x-large);
+    text-align: center;
+    color: var(--itk-ink-strong);
+    transition: opacity 200ms var(--itk-ease-out);
+  }
+
+  .reveal__after {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--op-space-medium);
+    inline-size: 100%;
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 1rem;
+    transition: opacity 260ms var(--itk-ease-out), translate 260ms var(--itk-ease-out), visibility 0s 260ms;
+  }
+
+  .reveal__tip {
+    margin: 0;
+    text-align: center;
+    color: var(--itk-pencil);
+  }
+
+  .reveal__done {
+    inline-size: 100%;
+  }
+
+  &[data-envelope-state='card-front'] .reveal__after {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition: opacity 260ms var(--itk-ease-out), translate 260ms var(--itk-ease-out), visibility 0s;
+  }
+
+  &:not([data-envelope-state='closed']) .reveal__prompt {
+    opacity: 0;
+  }
+}
+
+.envelope {
+  position: relative;
+  container-type: inline-size;
+  inline-size: min(100%, 38rem);
+  aspect-ratio: 7 / 5;
+  margin-block: 16rem var(--op-space-large);
+  transition: translate var(--envelope-card-time) cubic-bezier(0.55, 0, 0.8, 0.2), rotate var(--envelope-card-time) cubic-bezier(0.55, 0, 0.8, 0.2);
+
+  .envelope__back,
+  .envelope__pocket,
+  .envelope__flap {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--op-radius-small);
+  }
+
+  .envelope__back {
+    z-index: 1;
+    background-color: var(--envelope-pocket);
+    box-shadow: var(--itk-sheet-shadow);
+  }
+
+  /* The envelope's back panels, leaving a V-shaped opening at the top for the card. */
+  .envelope__pocket {
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-block-end: 6%;
+    background: linear-gradient(to bottom, var(--envelope-paper), var(--envelope-pocket));
+    clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .envelope__address {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: clamp(var(--op-font-x-large), 8cqi, var(--op-font-3x-large));
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+    rotate: -3deg;
+  }
+
+  .envelope__to {
+    margin-inline-end: 0.35em;
+    font-size: 0.6em;
+    color: var(--itk-pencil-soft);
+  }
+
+  .envelope__flap {
+    z-index: 4;
+    background: linear-gradient(to bottom, var(--envelope-flap), var(--envelope-paper));
+    clip-path: polygon(0 0, 100% 0, 50% 60%);
+    transform-origin: 50% 0;
+    transform: perspective(900px) rotateX(0deg);
+    transition: transform var(--envelope-flap-time) var(--itk-ease-out), z-index 0s calc(var(--envelope-flap-time) / 2);
+  }
+
+  /* Your animal as the wax seal: the thing you tap. */
+  .envelope__seal {
+    position: absolute;
+    z-index: 6;
+    inset-block-start: 60%;
+    inset-inline-start: 50%;
+    padding: 0;
+    border: none;
+    border-radius: var(--op-radius-circle);
+    background: none;
+    translate: -50% -50%;
+    cursor: pointer;
+    animation: seal-nudge 2.4s var(--itk-ease-out) infinite;
+    transition: scale 260ms var(--itk-ease-out), opacity 260ms var(--itk-ease-out);
+
+    &:focus-visible {
+      outline: 3px solid var(--itk-highlight-pink);
+      outline-offset: 4px;
+    }
+  }
+
+  /* An index card: ruled lines, a red header rule, the secret in highlighter. */
+  .envelope__card {
+    position: absolute;
+    z-index: 2;
+    inset-inline: 5%;
+    inset-block: 6% 6%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 7% 6%;
+    border-radius: var(--op-radius-small);
+    text-align: center;
+    background-color: var(--itk-paper-raised);
+    background-image:
+      linear-gradient(to bottom, transparent 21%, var(--itk-margin-red) 21%, var(--itk-margin-red) calc(21% + 2px), transparent calc(21% + 2px)),
+      repeating-linear-gradient(to bottom, transparent 0, transparent 2.3rem, var(--itk-rule) 2.3rem, var(--itk-rule) calc(2.3rem + 1px));
+    box-shadow: 0 1px 2px hsl(236deg 30% 10% / 18%);
+    transform: translateY(0) scale(1);
+    transition: transform var(--envelope-card-time) var(--itk-ease-out), box-shadow var(--envelope-card-time) var(--itk-ease-out);
+  }
+
+  .envelope__category {
+    margin: 0;
+    font-size: var(--op-font-small);
+    color: var(--itk-pencil-soft);
+  }
+
+  .envelope__role {
+    margin: 0;
+    padding: 0.05em 0.4em;
+    font-family: var(--itk-font-hand);
+    font-size: clamp(var(--op-font-large), 7cqi, var(--op-font-2x-large));
+    font-weight: var(--op-font-weight-bold);
+    color: var(--itk-on-highlight);
+    background-color: var(--itk-highlight-pink);
+    rotate: -2deg;
+  }
+
+  .envelope__label {
+    margin: 0;
+    color: var(--itk-pencil);
+  }
+
+  .envelope__secret {
+    margin: 0;
+    max-inline-size: 100%;
+    font-family: var(--itk-font-hand);
+    font-size: clamp(3.2rem, 12cqi, 6.4rem);
+    font-weight: var(--op-font-weight-extra-bold);
+    font-variation-settings: 'INFM' 45, 'BNCE' 20;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  /* Inline highlighter that follows the text across line breaks instead of one block behind it. */
+  .envelope__mark {
+    padding: 0.02em 0.18em;
+    color: var(--itk-on-highlight);
+    background-color: var(--itk-highlight-yellow);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .envelope__card--imposter .envelope__mark {
+    background-color: var(--itk-highlight-pink);
+  }
+}
+
+/* Opening and closing states */
+.reveal:not([data-envelope-state='closed'], [data-envelope-state='sealed'], [data-envelope-state='gone'], [data-envelope-state='submitting']) {
+  .envelope__flap {
+    z-index: 0;
+    transform: perspective(900px) rotateX(180deg);
+  }
+
+  .envelope__seal {
+    opacity: 0;
+    scale: 0.4;
+    pointer-events: none;
+    animation: none;
+  }
+}
+
+.reveal[data-envelope-state='card-out'] .envelope__card,
+.reveal[data-envelope-state='card-back'] .envelope__card {
+  transform: translateY(-80%);
+}
+
+.reveal[data-envelope-state='card-back'] .envelope__card,
+.reveal[data-envelope-state='card-front'] .envelope__card {
+  z-index: 5;
+}
+
+.reveal[data-envelope-state='card-front'] .envelope__card {
+  transform: translateY(-30%) scale(1.14);
+  box-shadow: var(--itk-sheet-shadow);
+}
+
+.reveal[data-envelope-state='sealed'] .envelope__seal,
+.reveal[data-envelope-state='gone'] .envelope__seal,
+.reveal[data-envelope-state='submitting'] .envelope__seal {
+  animation: none;
+}
+
+.reveal[data-envelope-state='gone'] .envelope,
+.reveal[data-envelope-state='submitting'] .envelope {
+  translate: 130vw 0;
+  rotate: 14deg;
+}
+
+@keyframes seal-nudge {
+  0%,
+  70%,
+  100% {
+    scale: 1;
+  }
+
+  80% {
+    scale: 1.08;
+  }
+
+  90% {
+    scale: 0.97;
+  }
+}
