@@ -8,10 +8,18 @@
       = icon('plus', size: :small)
       span New game
 
+  nav.tab-group aria-label="Games"
+    = link_to 'Active', host_games_path, class: ['tab', ('tab--active' if @tab == 'active')], aria: { current: ('page' if @tab == 'active') }
+    = link_to 'Finished', host_games_path(tab: 'finished'), class: ['tab', ('tab--active' if @tab == 'finished')], aria: { current: ('page' if @tab == 'finished') }
+
   - if @games.empty?
     .empty-state
-      p.empty-state__title No games yet
-      p Start one and share the code with the room.
+      - if @tab == 'finished'
+        p.empty-state__title Nothing finished yet
+        p Games land here once their last round is played or you end them.
+      - else
+        p.empty-state__title No games going
+        p Start one and share the code with the room.
   - else
     ul.game-list
       - @games.each do |game|
@@ -20,5 +28,9 @@
             span.game-list__code = game.code
             span.game-list__meta
               = pluralize(game.players.size, 'player')
-              |  · #{game.round_count} rounds · #{l(game.created_at.to_date, format: :long)}
+              |  · #{game.round_count} rounds ·
+              - if game.finished?
+                |  finished #{time_ago_in_words(game.finished_at || game.updated_at)} ago
+              - else
+                |  #{l(game.created_at.to_date, format: :long)}
             span.tag class="game-list__status game-list__status--#{game.status.dasherize}" = game.status.humanize

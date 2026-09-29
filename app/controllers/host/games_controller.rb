@@ -2,8 +2,12 @@
 
 module Host
   class GamesController < BaseController
+    TABS = %w[active finished].freeze
+
     def index
-      @games = current_user.hosted_games.includes(:players).order(created_at: :desc)
+      @tab = TABS.include?(params[:tab]) ? params[:tab] : 'active'
+      games = current_user.hosted_games.includes(:players)
+      @games = @tab == 'finished' ? games.recently_finished_first : games.open.newest_first
     end
 
     def new

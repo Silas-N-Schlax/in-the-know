@@ -26,6 +26,7 @@ class Game < ApplicationRecord
   normalizes :code, with: ->(code) { code.to_s.strip.upcase }
 
   before_validation :assign_code, on: :create
+  before_save :stamp_finished_at, if: -> { will_save_change_to_status?(to: 'finished') }
 
   validates :code, presence: true, length: { is: CODE_LENGTH }
   validates :player_cap, inclusion: { in: PLAYER_CAP_RANGE, message: 'must be between 3 and 20' }
@@ -38,6 +39,8 @@ class Game < ApplicationRecord
   validate :category_exists, if: :category_fixed?
 
   scope :open, -> { where.not(status: :finished) }
+  scope :newest_first, -> { order(created_at: :desc) }
+  scope :recently_finished_first, -> { finished.order(arel_table[:finished_at].desc.nulls_last, updated_at: :desc) }
 
   def self.max_imposters_for(player_count)
     [player_count.to_i / PLAYERS_PER_IMPOSTER, IMPOSTER_LIMIT].min
@@ -99,6 +102,10 @@ class Game < ApplicationRecord
       candidate = self.class.random_code
       break candidate unless self.class.open.exists?(code: candidate)
     end
+  end
+
+  def stamp_finished_at
+    self.finished_at ||= Time.current
   end
 
   def imposter_range_fits_player_cap
