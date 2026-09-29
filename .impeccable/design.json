@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-28T00:00:00Z",
+  "title": "Design System: In the Know",
+  "extensions": {
+    "colorMeta": {
+      "ballpoint-blue": { "role": "primary", "displayName": "Ballpoint Blue", "canonical": "hsl(229 88% 54%)", "tonalRamp": ["hsl(229 88% 15%)", "hsl(229 88% 25%)", "hsl(229 88% 35%)", "hsl(229 88% 45%)", "hsl(229 88% 54%)", "hsl(229 88% 68%)", "hsl(229 88% 82%)", "hsl(229 88% 95%)"] },
+      "highlighter-yellow": { "role": "secondary", "displayName": "Highlighter Yellow", "canonical": "hsl(52 100% 66%)" },
+      "highlighter-pink": { "role": "secondary", "displayName": "Highlighter Pink", "canonical": "hsl(333 100% 76%)" },
+      "highlighter-mint": { "role": "secondary", "displayName": "Highlighter Mint", "canonical": "hsl(150 72% 70%)" },
+      "notebook-paper": { "role": "neutral", "displayName": "Notebook Paper", "canonical": "hsl(42 45% 97%)" },
+      "sketchbook-black": { "role": "neutral", "displayName": "Sketchbook Black", "canonical": "hsl(240 12% 9%)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Hand (Shantell Sans)", "purpose": "Anything the room reads aloud: stage titles, join code, secret word, winners." },
+      "body": { "displayName": "Atkinson Hyperlegible Next", "purpose": "Everything read up close." }
+    },
+    "shadows": [
+      { "name": "sheet", "value": "0 1px 2px hsl(236 30% 10% / 12%), 0 10px 24px -8px hsl(236 30% 10% / 22%)", "purpose": "Paper lying on the page." },
+      { "name": "pressed-ink", "value": "0 2px 0 var(--itk-ink-strong), 0 8px 18px -8px var(--itk-ink)", "purpose": "Primary button." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "All state transitions." },
+      { "name": "note-unfold", "value": "700ms perspective rotateX(-70deg → 0) + clip-path", "purpose": "The secret note opening." },
+      { "name": "roster-arrive", "value": "480ms clip-path inset wipe", "purpose": "A name being written onto the roster." }
+    ],
+    "breakpoints": [
+      { "name": "stage-single-column", "value": "60rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A solid ballpoint sticker for the one next action.",
+      "html": "<button class=\"ds-btn-primary\">Join game</button>",
+      "css": ".ds-btn-primary { background: hsl(229 88% 54%); color: #fff; font-family: 'Shantell Sans', cursive; font-size: 1.25rem; font-weight: 600; min-height: 3.5rem; padding: 0 2rem; border: none; border-radius: 12px; box-shadow: 0 2px 0 hsl(229 70% 34%), 0 8px 18px -8px hsl(229 88% 54%); cursor: pointer; transition: translate .16s cubic-bezier(.16,1,.3,1), box-shadow .16s; } .ds-btn-primary:active { translate: 0 1px; box-shadow: 0 1px 0 hsl(229 70% 34%); } .ds-btn-primary:focus-visible { outline: 3px solid hsl(333 100% 76%); outline-offset: 3px; }"
+    },
+    {
+      "name": "Highlighter Callout",
+      "kind": "chip",
+      "refersTo": "highlight-callout",
+      "description": "A phrase swiped in highlighter: the round winner or a role reveal.",
+      "html": "<p class=\"ds-callout\">Insiders win!</p>",
+      "css": ".ds-callout { display: inline-block; margin: 0; padding: 0 .25em; font-family: 'Shantell Sans', cursive; font-size: 2.5rem; font-weight: 800; color: hsl(236 40% 14%); background: hsl(150 72% 70%); rotate: -2deg; }"
+    },
+    {
+      "name": "Taped Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "Raised paper held by tape, for forms.",
+      "html": "<div class=\"ds-sheet\">Game code</div>",
+      "css": ".ds-sheet { position: relative; padding: 1.5rem; background: hsl(42 60% 99%); border-radius: 8px; box-shadow: 0 1px 2px hsl(236 30% 10% / 12%), 0 10px 24px -8px hsl(236 30% 10% / 22%); } .ds-sheet::before { content: ''; position: absolute; top: -.5rem; left: 50%; width: 6rem; height: 1.5rem; translate: -50% 0; rotate: -3deg; background: hsl(48 40% 84% / 75%); }"
+    },
+    {
+      "name": "Critter Sticker",
+      "kind": "custom",
+      "refersTo": "critter",
+      "description": "A player's animal on its own sticker color.",
+      "html": "<span class=\"ds-critter\"></span>",
+      "css": ".ds-critter { display: inline-block; width: 2.75rem; height: 2.75rem; border-radius: 9999px; background: hsl(25 80% 86%); border: 2px solid hsl(42 60% 99%); box-shadow: 0 1px 2px hsl(236 30% 10% / 25%); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Passed Notes",
+    "overview": "Every secret is a note passed in class. The host screen is the notebook page the room reads, and phones hold folded notes that open for one reader. Light mode is ruled paper and ballpoint; dark mode is a black-paper sketchbook and gel pens.",
+    "keyCharacteristics": ["Ruled paper with a margin line under every screen", "Hand lettering for anything read aloud", "Three highlighters with fixed meanings", "Animal stickers with their own colors"],
+    "rules": [
+      { "name": "The Highlighter Rule", "body": "Text on a highlighter is always the on-highlight ink, and a highlighter owns a whole phrase.", "section": "colors" },
+      { "name": "The Three Pens Rule", "body": "Yellow means look here, pink means imposter, mint means Insider or win.", "section": "colors" },
+      { "name": "The Read-It-Out-Loud Rule", "body": "The room reads Shantell Sans; one person reads Atkinson.", "section": "typography" }
+    ],
+    "dos": ["Start content after the margin line", "One obvious next action per phone screen"],
+    "donts": ["No space, astronaut or neon social-deduction styling", "No labels or kickers above headings", "No gradient text, glass or hard offset shadows"]
+  }
+}
