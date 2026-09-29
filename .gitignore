@@ -40,10 +40,11 @@
 /node_modules
 
 /.yarn/install-state.gz
-spec/examples.txt/join-qr.png
+/join-qr.png
 
 # Design review captures
 /.impeccable/review/
 
 # RSpec run status
 /spec/examples.txt
+/public/packed-assets
