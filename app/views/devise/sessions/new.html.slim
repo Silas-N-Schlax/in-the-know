@@ -1,0 +1,14 @@
+- content_for :title, 'Host sign in'
+
+.auth
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'card sheet sheet--taped' }) do |f|
+    .card__header
+      = render 'application/wordmark'
+      p.auth__lede Hosts only. Players just need the game code.
+    .card__body.auth__fields
+      = f.input :email, required: true, autofocus: true, autocomplete: 'email'
+      = f.input :password, required: true, autocomplete: 'current-password'
+      = f.input :remember_me, as: :boolean, label: 'Keep me signed in'
+    .card__footer.auth__footer
+      = link_to 'Back to join', root_path, class: 'btn btn--no-border'
+      = f.submit 'Sign in', class: 'btn btn--primary'

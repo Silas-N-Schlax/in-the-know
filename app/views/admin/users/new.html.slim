@@ -1,0 +1,15 @@
+- content_for :title, 'Add user'
+= render 'host/header'
+
+.page.page--narrow
+  = simple_form_for @user, url: admin_users_path, html: { class: 'card sheet' } do |f|
+    .card__header
+      h1.page__title Add user
+      p.page__lede No email gets sent. You'll get a one-time setup link to pass along yourself.
+    .card__body.stack
+      = f.error_notification message: 'Please fix the problems below.'
+      = f.input :email, required: true, autofocus: true
+      = render 'role_field', f: f
+    .card__footer.form-actions
+      = link_to 'Cancel', admin_users_path, class: 'btn btn--no-border'
+      = f.submit 'Create user', class: 'btn btn--primary'

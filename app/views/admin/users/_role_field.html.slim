@@ -1,0 +1,3 @@
+= f.input :role, as: :radio_buttons, collection: User.roles.keys.map { |role| [role.humanize, role] },
+  label: 'Role', hint: 'Admins host games. Super admins also manage users.',
+  item_wrapper_class: 'role-choice', wrapper_html: { class: 'role-field' }

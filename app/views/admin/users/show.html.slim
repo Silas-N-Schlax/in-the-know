@@ -1,0 +1,29 @@
+- content_for :title, @user.display_name
+= render 'host/header'
+
+.page.page--narrow
+  .card.sheet
+    .card__header
+      h1.page__title = @user.display_name
+      p.page__lede
+        = @user.email
+        |  · #{@user.role.humanize}
+
+    .card__body.stack
+      - if flash[:setup_token]
+        .setup-link data-controller="copy"
+          label.form-label for="setup_link" Setup link
+          .setup-link__row
+            input#setup_link.form-control.setup-link__input readonly=true data-copy-target="source" value=accept_user_invitation_url(invitation_token: flash[:setup_token])
+            button.btn.btn--primary type="button" data-action="copy#copy" data-copy-target="button" Copy
+          p.form-hint Send this to #{@user.email}. It works once and expires in 7 days. You won't be able to see it again, but you can make a new one.
+      - elsif @user.awaiting_setup?
+        p Waiting for #{@user.email} to finish setup.
+      - else
+        p Setup finished.
+
+    .card__footer.form-actions
+      = link_to 'All users', admin_users_path, class: 'btn btn--no-border'
+      - if @user.awaiting_setup?
+        = button_to 'New setup link', admin_user_setup_link_path(@user), class: 'btn'
+      = link_to 'Edit role', edit_admin_user_path(@user), class: 'btn'

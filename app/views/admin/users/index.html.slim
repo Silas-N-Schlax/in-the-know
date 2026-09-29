@@ -1,0 +1,30 @@
+- content_for :title, 'Users'
+= render 'host/header'
+
+.page
+  .page__header
+    h1.page__title Users
+    = link_to new_admin_user_path, class: 'btn btn--primary' do
+      = icon('user-plus', size: :small)
+      span Add user
+
+  = form_with url: admin_users_path, method: :get, class: 'search-bar', data: { turbo_frame: 'users', turbo_action: 'advance' } do |f|
+    = f.label :query, 'Search', class: 'sr-only'
+    = f.search_field :query, value: @query, placeholder: 'Name or email', class: 'form-control search-bar__input', id: 'query', aria: { label: 'Search' }
+    = f.submit 'Search', class: 'btn'
+
+  = turbo_frame_tag 'users' do
+    - if @users.empty?
+      p.empty-note Nobody matches "#{@query}".
+    - else
+      ul.user-list
+        - @users.each do |user|
+          li.user-list__item data-testid=dom_id(user)
+            .user-list__who
+              span.user-list__name = user.display_name
+              span.user-list__email = user.email
+            .user-list__meta
+              - if user.awaiting_setup?
+                span.tag.tag--warning Waiting for setup
+              span.tag class=(user.super_admin? ? 'tag--primary' : '') = user.role.humanize
+              = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn--small', data: { turbo_frame: '_top' }

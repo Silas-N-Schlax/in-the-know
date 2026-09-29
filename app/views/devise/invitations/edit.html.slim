@@ -1,0 +1,17 @@
+- content_for :title, 'Finish setup'
+
+.auth
+  = simple_form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put, class: 'card sheet sheet--taped' }) do |f|
+    = f.hidden_field :invitation_token, readonly: true
+    .card__header
+      = render 'application/wordmark'
+      p.auth__lede Pick a name and password to finish setting up #{resource.email}.
+    .card__body.auth__fields
+      = render 'devise/shared/error_messages', resource: resource
+      = f.input :name, required: true, autofocus: true, input_html: { maxlength: User::NAME_MAX_LENGTH }
+      = f.input :password, label: "New password", required: true, autocomplete: "new-password",
+        hint: ("At least #{@minimum_password_length} characters" if @minimum_password_length)
+      = f.input :password_confirmation, required: true, autocomplete: 'new-password'
+    .card__footer.auth__footer
+      span
+      = f.submit 'Finish setup', class: 'btn btn--primary'

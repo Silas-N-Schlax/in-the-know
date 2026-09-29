@@ -1,0 +1,14 @@
+- content_for :title, "Edit #{@user.display_name}"
+= render 'host/header'
+
+.page.page--narrow
+  = simple_form_for @user, url: admin_user_path(@user), html: { class: 'card sheet' } do |f|
+    .card__header
+      h1.page__title = @user.display_name
+      p.page__lede = @user.email
+    .card__body.stack
+      = f.error_notification
+      = render 'role_field', f: f
+    .card__footer.form-actions
+      = link_to 'Cancel', admin_users_path, class: 'btn btn--no-border'
+      = f.submit 'Save', class: 'btn btn--primary'
