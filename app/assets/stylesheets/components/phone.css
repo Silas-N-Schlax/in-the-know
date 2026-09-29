@@ -1,0 +1,425 @@
+/* Phone screens: one private job at a time, thumb-sized. */
+.phone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-large);
+  max-inline-size: 30rem;
+  margin-inline: auto;
+
+  .phone__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--op-space-x-small);
+  }
+
+  .phone__title {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-3x-large);
+    font-variation-settings: 'INFM' 55, 'BNCE' 15;
+    line-height: var(--op-line-height-dense);
+    letter-spacing: -0.02em;
+    color: var(--itk-ink-strong);
+    text-wrap: balance;
+  }
+
+  .phone__lede {
+    margin: 0;
+    font-size: var(--op-font-large);
+    color: var(--itk-pencil);
+  }
+
+  .phone__hint {
+    margin: 0;
+    color: var(--itk-pencil-soft);
+  }
+}
+
+/* A small strip of who and where, at the top of every in-game phone screen. */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--op-space-x-small);
+  padding-block-end: var(--op-space-x-small);
+  border-block-end: 1px solid var(--itk-rule);
+  font-size: var(--op-font-small);
+  color: var(--itk-pencil-soft);
+
+  .status-bar__name {
+    flex: 1;
+    overflow: hidden;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-medium);
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .status-bar__where,
+  .status-bar__points {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .status-bar__points {
+    padding-inline: 0.35em;
+    background-color: var(--itk-highlight-yellow);
+    color: var(--itk-on-highlight);
+  }
+}
+
+/* "Pass to Otter": the handoff screen before anything private. */
+.handoff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--op-space-medium);
+  padding-block: var(--op-space-x-large);
+  text-align: center;
+
+  .handoff__name {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-4x-large);
+    font-variation-settings: 'INFM' 60, 'BNCE' 25;
+    line-height: var(--op-line-height-densest);
+    color: var(--itk-ink-strong);
+    text-wrap: balance;
+  }
+
+  .handoff__hint {
+    margin: 0;
+    color: var(--itk-pencil);
+  }
+
+  .handoff__go {
+    inline-size: 100%;
+    margin-block-start: var(--op-space-medium);
+  }
+}
+
+/*
+ * The secret itself: a folded note. It unfolds when shown (the signature moment)
+ * and is written in highlighter for imposters so a glance tells you which note you got.
+ */
+.secret {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--op-space-x-small);
+  padding: var(--op-space-2x-large) var(--op-space-large);
+  border-radius: var(--op-radius-small);
+  text-align: center;
+  background-color: var(--itk-paper-raised);
+  background-image:
+    linear-gradient(to bottom, transparent calc(50% - 1px), var(--itk-crease) calc(50% - 1px), var(--itk-crease) calc(50% + 1px), transparent calc(50% + 1px)),
+    linear-gradient(to right, transparent calc(50% - 1px), var(--itk-crease) calc(50% - 1px), var(--itk-crease) calc(50% + 1px), transparent calc(50% + 1px));
+  box-shadow: var(--itk-sheet-shadow);
+  transform-origin: 50% 0;
+  animation: note-unfold 700ms var(--itk-ease-out) both;
+
+  .secret__for {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-large);
+    color: var(--itk-pencil-soft);
+  }
+
+  .secret__category,
+  .secret__label,
+  .secret__tip {
+    margin: 0;
+    color: var(--itk-pencil);
+  }
+
+  .secret__role {
+    margin: 0 0 var(--op-space-small);
+    padding: 0.05em 0.4em;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-2x-large);
+    font-weight: var(--op-font-weight-bold);
+    color: var(--itk-on-highlight);
+    background-color: var(--itk-highlight-pink);
+    rotate: -2deg;
+  }
+
+  .secret__word {
+    margin: var(--op-space-x-small) 0 var(--op-space-medium);
+    font-family: var(--itk-font-hand);
+    font-size: clamp(var(--op-font-4x-large), 14vw, var(--op-font-6x-large));
+    font-weight: var(--op-font-weight-extra-bold);
+    font-variation-settings: 'INFM' 45, 'BNCE' 20;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--itk-ink-strong);
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  &.secret--imposter {
+    .secret__word {
+      padding-inline: 0.15em;
+      color: var(--itk-on-highlight);
+      background: linear-gradient(transparent 15%, var(--itk-highlight-pink) 15%, var(--itk-highlight-pink) 90%, transparent 90%);
+    }
+  }
+}
+
+.secret-done {
+  inline-size: 100%;
+}
+
+@keyframes note-unfold {
+  0% {
+    clip-path: inset(0 0 50% 0);
+    transform: perspective(900px) rotateX(-70deg);
+  }
+
+  60% {
+    clip-path: inset(0 0 0 0);
+  }
+
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: perspective(900px) rotateX(0deg);
+  }
+}
+
+/* Hold-to-peek at your word during discussion. */
+.peek {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--op-space-small);
+
+  .peek__button {
+    min-block-size: 3.5rem;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .peek__secret {
+    margin: 0;
+    padding: var(--op-space-medium);
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-3x-large);
+    text-align: center;
+    color: var(--itk-ink-strong);
+    background-color: var(--itk-paper-raised);
+    box-shadow: var(--itk-sheet-shadow);
+  }
+}
+
+/* Vote choices as big animal stickers, Skip on its own line. */
+.vote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--op-space-small);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .vote-grid__choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--op-space-2x-small);
+    inline-size: 100%;
+    padding: var(--op-space-small);
+    border: 2px solid transparent;
+    border-radius: var(--op-radius-large);
+    font: inherit;
+    color: inherit;
+    background-color: var(--itk-paper-raised);
+    box-shadow: var(--itk-sheet-shadow);
+    cursor: pointer;
+    transition: scale 160ms var(--itk-ease-out), border-color 160ms var(--itk-ease-out);
+
+    &:hover {
+      border-color: var(--itk-ink);
+    }
+
+    &:active {
+      scale: 0.97;
+    }
+
+    &.vote-grid__choice--skip {
+      flex-direction: row;
+      justify-content: center;
+      min-block-size: 3.5rem;
+      font-family: var(--itk-font-hand);
+      font-size: var(--op-font-x-large);
+      color: var(--itk-pencil);
+    }
+  }
+
+  .vote-grid__name {
+    max-inline-size: 100%;
+    overflow: hidden;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-large);
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .vote-grid__skip {
+    grid-column: 1 / -1;
+  }
+}
+
+.my-votes,
+.my-results {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.my-votes {
+  .my-votes__row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--op-space-small);
+    min-block-size: var(--itk-rule-gap);
+    padding-block: var(--op-space-2x-small);
+  }
+
+  .my-votes__who {
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+  }
+
+  .my-votes__for {
+    color: var(--itk-pencil);
+  }
+}
+
+.my-results {
+  .my-results__row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: var(--op-space-small);
+    min-block-size: var(--itk-rule-gap);
+  }
+
+  .my-results__who {
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+  }
+
+  .my-results__role {
+    color: var(--itk-pencil-soft);
+  }
+
+  .my-results__points {
+    font-family: var(--itk-font-hand);
+    color: var(--itk-pencil-soft);
+
+    &.my-results__points--scored {
+      padding-inline: 0.3em;
+      color: var(--itk-on-highlight);
+      background-color: var(--itk-highlight-mint);
+    }
+  }
+}
+
+/* Voted out, or removed: a quiet crossed-out page. */
+.out-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--op-space-medium);
+  padding-block: var(--op-space-x-large);
+  text-align: center;
+
+  .out-screen__title {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-4x-large);
+    color: var(--itk-ink-strong);
+    text-decoration: line-through 4px var(--itk-margin-red);
+  }
+
+  .out-screen__lede,
+  .out-screen__note {
+    margin: 0;
+    max-inline-size: 30ch;
+    color: var(--itk-pencil);
+  }
+}
+
+.round-over {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-medium);
+
+  .round-over__winner {
+    align-self: flex-start;
+    margin: 0;
+    padding-inline: 0.25em;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-4x-large);
+    font-weight: var(--op-font-weight-extra-bold);
+    color: var(--itk-on-highlight);
+    background-color: var(--itk-highlight-mint);
+    rotate: -2deg;
+  }
+
+  .round-over__word {
+    margin: 0;
+    font-size: var(--op-font-large);
+  }
+
+  .round-over__secret {
+    font-family: var(--itk-font-hand);
+    font-weight: var(--op-font-weight-bold);
+    color: var(--itk-ink-strong);
+  }
+
+  &.round-over--imposters .round-over__winner {
+    background-color: var(--itk-highlight-pink);
+  }
+}
+
+.final-rank {
+  display: flex;
+  align-items: baseline;
+  gap: var(--op-space-small);
+  margin: 0;
+
+  .final-rank__place {
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-5x-large);
+    font-weight: var(--op-font-weight-extra-bold);
+    color: var(--itk-ink-strong);
+  }
+
+  .final-rank__points {
+    font-size: var(--op-font-large);
+    color: var(--itk-pencil);
+  }
+}
+
+.backup-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-small);
+  padding: var(--op-space-large);
+  border-radius: var(--itk-radius-sheet);
+  background-color: var(--itk-paper-raised);
+  box-shadow: var(--itk-sheet-shadow);
+
+  .backup-panel__title {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-x-large);
+    color: var(--itk-ink-strong);
+  }
+}

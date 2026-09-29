@@ -1,0 +1,65 @@
+/* Page-wide surfaces: the notebook sheet everything is written on, plus the browser parts we didn't draw. */
+.app-body {
+  /* Optics makes the body a fixed-height scroll box; let the page scroll normally so the ruled paper scrolls with it. */
+  display: block;
+  overflow: visible;
+  block-size: auto;
+  min-block-size: 100dvh;
+  background-color: var(--itk-paper);
+  background-image:
+    linear-gradient(to right, transparent calc(var(--itk-margin-inset) - 1px), var(--itk-margin-red) calc(var(--itk-margin-inset) - 1px), var(--itk-margin-red) calc(var(--itk-margin-inset) + 1px), transparent calc(var(--itk-margin-inset) + 1px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--itk-rule-gap) - 1px), var(--itk-rule) calc(var(--itk-rule-gap) - 1px), var(--itk-rule) var(--itk-rule-gap));
+  color: var(--itk-pencil);
+  font-family: var(--op-font-family);
+  accent-color: var(--itk-ink);
+  caret-color: var(--itk-ink);
+  scrollbar-color: var(--itk-rule) transparent;
+  -webkit-tap-highlight-color: transparent;
+
+  &.app-body--stage {
+    --itk-rule-gap: 3rem;
+    --itk-margin-inset: 5rem;
+
+    .app__content {
+      max-inline-size: none;
+    }
+  }
+
+  .app__content {
+    padding: var(--op-space-large) var(--op-space-medium) calc(var(--op-space-4x-large) + var(--op-space-large));
+    padding-inline-start: calc(var(--itk-margin-inset) + var(--op-space-medium));
+  }
+
+  ::selection {
+    background-color: var(--itk-highlight-yellow);
+    color: var(--itk-on-highlight);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--itk-highlight-pink);
+    outline-offset: 3px;
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* Visually hidden but still read by screen readers. */
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+  inline-size: 1px;
+  block-size: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

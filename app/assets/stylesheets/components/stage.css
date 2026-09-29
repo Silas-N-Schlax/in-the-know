@@ -1,0 +1,382 @@
+/*
+ * The host screen: a notebook page the whole room reads from across the room.
+ * Everything here is sized for distance.
+ */
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-x-large);
+  font-size: clamp(var(--op-font-medium), 1.4vw, var(--op-font-x-large));
+
+  .stage__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--op-space-large);
+    text-align: center;
+  }
+
+  .stage__title {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: clamp(var(--op-font-3x-large), 5vw, var(--op-font-6x-large));
+    font-variation-settings: 'INFM' 55, 'BNCE' 10;
+    line-height: var(--op-line-height-densest);
+    letter-spacing: -0.02em;
+    color: var(--itk-ink-strong);
+    text-wrap: balance;
+  }
+
+  .stage__lede {
+    max-inline-size: 40ch;
+    margin: 0;
+    font-size: 1.25em;
+    color: var(--itk-pencil);
+    text-wrap: balance;
+  }
+
+  .stage__count {
+    margin: 0;
+    white-space: nowrap;
+    font-family: var(--itk-font-hand);
+    font-size: 1.6em;
+    font-variant-numeric: tabular-nums;
+    color: var(--itk-pencil);
+  }
+
+  .stage__split {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+    align-items: start;
+    gap: var(--op-space-2x-large);
+  }
+
+  .stage__side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--op-space-large);
+  }
+
+  @media (width < 60rem) {
+    .stage__split {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* Where we are in the game, written across the top margin of the page. */
+.round-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--op-space-medium);
+  padding-block-end: var(--op-space-small);
+  border-block-end: 2px solid var(--itk-ink-strong);
+
+  .round-bar__where {
+    display: flex;
+    align-items: baseline;
+    gap: var(--op-space-medium);
+    font-family: var(--itk-font-hand);
+    font-size: 1.5em;
+    color: var(--itk-ink-strong);
+  }
+
+  .round-bar__trip {
+    padding-inline: 0.3em;
+    background-color: var(--itk-highlight-yellow);
+    color: var(--itk-on-highlight);
+  }
+
+  .round-bar__category {
+    display: flex;
+    align-items: baseline;
+    gap: var(--op-space-x-small);
+  }
+
+  .round-bar__label {
+    color: var(--itk-pencil-soft);
+  }
+
+  .round-bar__value {
+    font-family: var(--itk-font-hand);
+    font-size: 1.5em;
+    font-weight: var(--op-font-weight-bold);
+    color: var(--itk-ink-strong);
+  }
+}
+
+/* The lobby: the code is the page's headline, the roster fills in below it. */
+.lobby {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--op-space-2x-large);
+  align-items: start;
+
+  .lobby__join {
+    position: sticky;
+    inset-block-start: var(--op-space-large);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--op-space-medium);
+  }
+
+  .lobby__how {
+    margin: 0;
+    font-size: 1.2em;
+    color: var(--itk-pencil);
+
+    .lobby__url {
+      font-weight: var(--op-font-weight-bold);
+      color: var(--itk-ink-strong);
+    }
+  }
+
+  .lobby__settings {
+    margin: 0;
+    color: var(--itk-pencil-soft);
+  }
+
+  .lobby__room {
+    display: flex;
+    flex-direction: column;
+    gap: var(--op-space-large);
+  }
+
+  .lobby__room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--op-space-medium);
+  }
+
+  .lobby__empty {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: 1.3em;
+    color: var(--itk-pencil-soft);
+  }
+
+  .lobby__start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--op-space-x-small);
+  }
+
+  @media (width < 60rem) {
+    grid-template-columns: 1fr;
+
+    .lobby__join {
+      position: static;
+    }
+  }
+}
+
+/* The join code, hand-lettered big with a highlighter swipe behind it. */
+.join-code {
+  display: flex;
+  gap: 0.08em;
+  margin: 0;
+  padding: 0.05em 0.25em;
+  font-family: var(--itk-font-hand);
+  font-size: clamp(5rem, 12vw, 11rem);
+  font-weight: var(--op-font-weight-extra-bold);
+  font-variation-settings: 'INFM' 30, 'BNCE' 30;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--itk-on-highlight);
+  background: linear-gradient(transparent 22%, var(--itk-highlight-yellow) 22%, var(--itk-highlight-yellow) 86%, transparent 86%);
+  rotate: -1.5deg;
+
+  .join-code__char {
+    display: inline-block;
+
+    &:nth-child(even) {
+      translate: 0 0.04em;
+      rotate: 2deg;
+    }
+  }
+}
+
+/* The QR code, taped onto the page. */
+.qr {
+  position: relative;
+  inline-size: min(15rem, 60%);
+  padding: var(--op-space-small);
+  border-radius: var(--op-radius-small);
+  background-color: hsl(0deg 0% 100%);
+  box-shadow: var(--itk-sheet-shadow);
+  rotate: 1.5deg;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -0.7rem;
+    inset-inline-start: 50%;
+    inline-size: 5rem;
+    block-size: 1.4rem;
+    translate: -50% 0;
+    rotate: -4deg;
+    background-color: var(--itk-tape);
+  }
+
+  .qr__code {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    color: hsl(236deg 40% 14%);
+  }
+}
+
+/* Players written into the page like a class roster, one line each. */
+.roster {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  gap: 0 var(--op-space-large);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .roster__item {
+    display: grid;
+    grid-template-columns: auto minmax(5rem, 1fr) auto auto;
+    align-items: center;
+    gap: var(--op-space-small);
+    min-block-size: var(--itk-rule-gap);
+    padding-block: var(--op-space-2x-small);
+    animation: roster-arrive 480ms var(--itk-ease-out);
+
+    &.roster__item--out {
+      opacity: 0.55;
+
+      .roster__name {
+        text-decoration: line-through 2px var(--itk-margin-red);
+      }
+    }
+  }
+
+  .roster__name {
+    overflow: hidden;
+    font-family: var(--itk-font-hand);
+    font-size: 1.35em;
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .roster__picking {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border: 2px dashed var(--itk-rule);
+    border-radius: var(--op-radius-circle);
+    font-size: var(--op-font-2x-small);
+    color: var(--itk-pencil-soft);
+  }
+
+  .roster__via,
+  .roster__status {
+    font-size: var(--op-font-small);
+    color: var(--itk-pencil-soft);
+
+    &.roster__status--done {
+      padding-inline: 0.3em;
+      background-color: var(--itk-highlight-mint);
+      color: var(--itk-on-highlight);
+    }
+  }
+
+  .roster__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--op-space-3x-small);
+  }
+
+  .roster__remove {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2rem;
+    block-size: 2rem;
+    border-radius: var(--op-radius-circle);
+    color: var(--itk-pencil-soft);
+
+    &:hover {
+      background-color: var(--itk-highlight-pink);
+      color: var(--itk-on-highlight);
+    }
+  }
+
+  &.roster--stage {
+    inline-size: 100%;
+    text-align: start;
+  }
+
+  &.roster--compact {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes roster-arrive {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Who has looked at their note yet: a sticker lights up per player. */
+.progress-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--op-space-small);
+
+  .progress-dots__dot {
+    opacity: 0.3;
+    filter: grayscale(1);
+    transition: opacity 400ms var(--itk-ease-out), filter 400ms var(--itk-ease-out), scale 400ms var(--itk-ease-out);
+
+    &.progress-dots__dot--done {
+      opacity: 1;
+      filter: none;
+      scale: 1.1;
+    }
+  }
+}
+
+/* Discussion timer, big enough to read from the couch. */
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--op-space-x-small);
+
+  .timer__clock {
+    font-family: var(--itk-font-hand);
+    font-size: clamp(5rem, 14vw, 12rem);
+    font-weight: var(--op-font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--itk-ink-strong);
+    transition: color 300ms var(--itk-ease-out);
+  }
+
+  .timer__label {
+    color: var(--itk-pencil-soft);
+  }
+
+  &.timer--urgent .timer__clock {
+    color: var(--op-color-alerts-danger-base);
+  }
+
+  &.timer--compact .timer__clock {
+    font-size: var(--op-font-5x-large);
+  }
+}

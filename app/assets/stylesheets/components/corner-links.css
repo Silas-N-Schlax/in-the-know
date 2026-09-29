@@ -1,0 +1,21 @@
+/* Help links pinned to the bottom of every screen: host sign in on the left, How to play / Rules / theme on the right. */
+.corner-links {
+  position: fixed;
+  z-index: var(--op-z-index-footer);
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--op-space-small);
+  padding: var(--op-space-small) var(--op-space-medium) max(var(--op-space-small), env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--itk-paper) 55%, transparent);
+  pointer-events: none;
+
+  .corner-links__start,
+  .corner-links__end {
+    display: flex;
+    gap: var(--op-space-2x-small);
+    pointer-events: auto;
+  }
+}

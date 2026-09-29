@@ -1,0 +1,72 @@
+/* How to play and Rules: a page of notes worth reading. */
+.prose {
+  max-inline-size: 42rem;
+  margin-inline: auto;
+  line-height: var(--op-line-height-loose);
+  color: var(--itk-pencil);
+
+  .prose__back {
+    margin-block-end: var(--op-space-medium);
+  }
+
+  .prose__lede {
+    font-size: var(--op-font-large);
+  }
+
+  h1,
+  h2 {
+    font-family: var(--itk-font-hand);
+    color: var(--itk-ink-strong);
+    line-height: var(--op-line-height-dense);
+    text-wrap: balance;
+  }
+
+  h1 {
+    margin: 0 0 var(--op-space-small);
+    font-size: var(--op-font-4x-large);
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    margin: var(--op-space-x-large) 0 var(--op-space-x-small);
+    font-size: var(--op-font-2x-large);
+  }
+
+  strong {
+    color: var(--itk-ink-strong);
+  }
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-medium);
+  margin: var(--op-space-large) 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: steps;
+
+  .steps__item {
+    position: relative;
+    padding-inline-start: 3.5rem;
+    counter-increment: steps;
+
+    &::before {
+      content: counter(steps);
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: 0.2rem;
+      display: grid;
+      place-items: center;
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+      border: 2px solid var(--itk-ink);
+      border-radius: var(--op-radius-circle);
+      font-family: var(--itk-font-hand);
+      font-size: var(--op-font-large);
+      font-weight: var(--op-font-weight-bold);
+      color: var(--itk-ink-strong);
+      rotate: -6deg;
+    }
+  }
+}

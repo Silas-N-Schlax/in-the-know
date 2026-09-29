@@ -1,0 +1,110 @@
+/*
+ * A player's animal, drawn as a round sticker. Each animal has its own sticker color so
+ * players are told apart by both the animal and the color. The art lives in app/assets/images/avatars.
+ */
+.critter {
+  --critter-size: 2.75rem;
+  --critter-hue: 229;
+
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--critter-size);
+  block-size: var(--critter-size);
+  overflow: hidden;
+  border: 2px solid var(--itk-paper-raised);
+  border-radius: var(--op-radius-circle);
+  background-color: light-dark(hsl(var(--critter-hue) 80% 86%), hsl(var(--critter-hue) 45% 34%));
+  box-shadow: 0 1px 2px hsl(236deg 30% 10% / 25%);
+
+  .critter__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    color: transparent;
+  }
+
+  &.critter--x-small { --critter-size: 1.875rem; }
+  &.critter--small { --critter-size: 2rem; }
+  &.critter--large { --critter-size: 4.5rem; }
+  &.critter--x-large { --critter-size: 7rem; }
+
+  &.critter--otter { --critter-hue: 25; }
+  &.critter--fox { --critter-hue: 15; }
+  &.critter--axolotl { --critter-hue: 330; }
+  &.critter--capybara { --critter-hue: 35; }
+  &.critter--penguin { --critter-hue: 210; }
+  &.critter--frog { --critter-hue: 110; }
+  &.critter--owl { --critter-hue: 45; }
+  &.critter--hedgehog { --critter-hue: 30; }
+  &.critter--llama { --critter-hue: 55; }
+  &.critter--octopus { --critter-hue: 280; }
+  &.critter--flamingo { --critter-hue: 345; }
+  &.critter--sloth { --critter-hue: 90; }
+  &.critter--walrus { --critter-hue: 195; }
+  &.critter--koala { --critter-hue: 240; }
+  &.critter--narwhal { --critter-hue: 185; }
+  &.critter--platypus { --critter-hue: 165; }
+  &.critter--red-panda { --critter-hue: 5; }
+  &.critter--goose { --critter-hue: 70; }
+  &.critter--shark { --critter-hue: 220; }
+  &.critter--toucan { --critter-hue: 140; }
+  &.critter--raccoon { --critter-hue: 260; }
+}
+
+/* The grid of animals to pick from. Taken ones are greyed and crossed out. */
+.avatar-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: var(--op-space-small);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .avatar-picker__form {
+    display: contents;
+  }
+
+  .avatar-picker__choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--op-space-2x-small);
+    inline-size: 100%;
+    padding: var(--op-space-x-small);
+    border: 2px solid transparent;
+    border-radius: var(--op-radius-large);
+    font: inherit;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    transition: opacity 300ms var(--itk-ease-out), filter 300ms var(--itk-ease-out), border-color 160ms var(--itk-ease-out);
+
+    &:hover:not(:disabled) {
+      border-color: var(--itk-ink);
+      background-color: var(--itk-paper-raised);
+    }
+
+    &.avatar-picker__choice--current {
+      border-color: var(--itk-ink);
+      background-color: color-mix(in srgb, var(--itk-highlight-yellow) 45%, transparent);
+    }
+
+    &.avatar-picker__choice--taken,
+    &:disabled {
+      opacity: 0.35;
+      filter: grayscale(1);
+      cursor: not-allowed;
+
+      .avatar-picker__name {
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .avatar-picker__name {
+    font-size: var(--op-font-small);
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+  }
+}

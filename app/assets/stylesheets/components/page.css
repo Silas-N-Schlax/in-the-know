@@ -1,0 +1,200 @@
+/* Host and admin pages that aren't the stage: games list, setup, users. */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-large);
+  max-inline-size: 64rem;
+  margin-inline: auto;
+
+  .page__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--op-space-medium);
+  }
+
+  .page__title {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-3x-large);
+    font-variation-settings: 'INFM' 50;
+    line-height: var(--op-line-height-dense);
+    color: var(--itk-ink-strong);
+    letter-spacing: -0.02em;
+  }
+
+  .page__lede {
+    margin: var(--op-space-2x-small) 0 0;
+    color: var(--itk-pencil-soft);
+  }
+
+  &.page--narrow {
+    max-inline-size: 40rem;
+  }
+}
+
+.host-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--op-space-small);
+  padding: var(--op-space-small) var(--op-space-medium);
+  padding-inline-start: calc(var(--itk-margin-inset) + var(--op-space-medium));
+
+  .host-header__brand {
+    text-decoration: none;
+  }
+
+  .host-header__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--op-space-2x-small);
+  }
+
+  .host-header__who {
+    padding-inline: var(--op-space-small);
+    font-size: var(--op-font-small);
+    color: var(--itk-pencil-soft);
+  }
+}
+
+.empty-state {
+  padding: var(--op-space-2x-large) var(--op-space-large);
+  text-align: center;
+  color: var(--itk-pencil-soft);
+
+  .empty-state__title {
+    margin: 0 0 var(--op-space-x-small);
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-2x-large);
+    color: var(--itk-ink-strong);
+  }
+}
+
+.search-bar {
+  display: flex;
+  gap: var(--op-space-small);
+
+  .search-bar__input {
+    flex: 1;
+  }
+}
+
+.game-list,
+.user-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game-list {
+  .game-list__item {
+    border-block-end: 1px solid var(--itk-rule);
+  }
+
+  .game-list__link {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--op-space-medium);
+    padding: var(--op-space-small) var(--op-space-x-small);
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--op-radius-medium);
+    transition: background-color 160ms var(--itk-ease-out);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--itk-highlight-yellow) 35%, transparent);
+    }
+  }
+
+  .game-list__code {
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-2x-large);
+    font-weight: var(--op-font-weight-bold);
+    letter-spacing: 0.12em;
+    color: var(--itk-ink-strong);
+  }
+
+  .game-list__meta {
+    color: var(--itk-pencil-soft);
+  }
+
+  .game-list__status {
+    &.game-list__status--in-progress {
+      background-color: var(--itk-highlight-mint);
+      color: var(--itk-on-highlight);
+    }
+
+    &.game-list__status--lobby {
+      background-color: var(--itk-highlight-yellow);
+      color: var(--itk-on-highlight);
+    }
+  }
+}
+
+.user-list {
+  .user-list__item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--op-space-small);
+    padding: var(--op-space-small) var(--op-space-x-small);
+    border-block-end: 1px solid var(--itk-rule);
+  }
+
+  .user-list__who {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-list__name {
+    font-weight: var(--op-font-weight-semi-bold);
+    color: var(--itk-ink-strong);
+  }
+
+  .user-list__email {
+    font-size: var(--op-font-small);
+    color: var(--itk-pencil-soft);
+  }
+
+  .user-list__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--op-space-x-small);
+  }
+}
+
+.empty-note {
+  color: var(--itk-pencil-soft);
+}
+
+.setup-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-x-small);
+
+  .setup-link__row {
+    display: flex;
+    gap: var(--op-space-x-small);
+  }
+
+  .setup-link__input {
+    flex: 1;
+    font-size: var(--op-font-small);
+  }
+}
+
+.role-field {
+  .role-choice {
+    display: flex;
+    align-items: center;
+    gap: var(--op-space-x-small);
+  }
+}

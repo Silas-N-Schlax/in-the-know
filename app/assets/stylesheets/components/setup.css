@@ -1,0 +1,75 @@
+/* New game settings: sections of pill rows. */
+.setup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-x-large);
+
+  .setup__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--op-space-medium);
+    padding: var(--op-space-large);
+    border-radius: var(--itk-radius-sheet);
+    background-color: var(--itk-paper-raised);
+    box-shadow: var(--itk-sheet-shadow);
+  }
+
+  .setup__heading {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-x-large);
+    color: var(--itk-ink-strong);
+  }
+
+  .setup__range {
+    display: flex;
+    flex-direction: column;
+    gap: var(--op-space-x-small);
+  }
+
+  .setup__label {
+    margin: 0;
+    font-weight: var(--op-font-weight-semi-bold);
+  }
+}
+
+/* Long option rows (3–20 players, 1–15 rounds) wrap into a grid instead of squeezing. */
+.segmented-control {
+  &.segmented-control--wrap {
+    inline-size: 100%;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr));
+    block-size: auto;
+  }
+
+  .segmented-control__label {
+    font-variant-numeric: tabular-nums;
+
+    &.segmented-control__label--in-range {
+      background-color: var(--itk-highlight-yellow);
+      color: var(--itk-on-highlight);
+    }
+  }
+}
+
+.removal-choice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-small);
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  .removal-choice__option {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--op-space-small);
+    padding: var(--op-space-small);
+    border-radius: var(--op-radius-medium);
+    cursor: pointer;
+
+    &:has(:checked) {
+      background-color: color-mix(in srgb, var(--itk-highlight-yellow) 45%, transparent);
+    }
+  }
+}

@@ -1,0 +1,42 @@
+/*
+ * A sheet of paper laid on the notebook: used for forms and panels.
+ * Pairs with Optics .card (header/body/footer) and adds the paper, tape and tilt.
+ */
+.sheet {
+  position: relative;
+  border: none;
+  border-radius: var(--itk-radius-sheet);
+  background-color: var(--itk-paper-raised);
+  box-shadow: var(--itk-sheet-shadow);
+
+  &.sheet--taped::before {
+    content: '';
+    position: absolute;
+    inset-block-start: calc(var(--op-space-small) * -1);
+    inset-inline-start: 50%;
+    inline-size: 6rem;
+    block-size: 1.5rem;
+    translate: -50% 0;
+    rotate: -3deg;
+    background-color: var(--itk-tape);
+  }
+
+  &.sheet--tilted {
+    rotate: -0.6deg;
+  }
+}
+
+/* Vertical rhythm for stacked form fields and paragraphs. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-medium);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--op-space-small);
+}

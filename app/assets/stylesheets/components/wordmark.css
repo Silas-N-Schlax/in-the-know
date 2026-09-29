@@ -1,0 +1,35 @@
+/* "In the Know", hand-lettered, with "Know" swiped in highlighter. */
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28em;
+  font-family: var(--itk-font-hand);
+  font-size: var(--op-font-2x-large);
+  font-variation-settings: 'INFM' 60, 'BNCE' 20;
+  font-weight: var(--op-font-weight-bold);
+  line-height: var(--op-line-height-densest);
+  color: var(--itk-ink-strong);
+  letter-spacing: -0.02em;
+
+  .wordmark__in {
+    font-weight: var(--op-font-weight-medium);
+    white-space: nowrap;
+  }
+
+  .wordmark__know {
+    position: relative;
+    padding-inline: 0.12em;
+    color: var(--itk-on-highlight);
+    background:
+      linear-gradient(transparent 18%, var(--itk-highlight-yellow) 18%, var(--itk-highlight-yellow) 88%, transparent 88%);
+    rotate: -2deg;
+  }
+
+  &.wordmark--small {
+    font-size: var(--op-font-large);
+  }
+
+  &.wordmark--large {
+    font-size: clamp(var(--op-font-3x-large), 11vw, var(--op-font-6x-large));
+  }
+}

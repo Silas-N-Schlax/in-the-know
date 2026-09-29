@@ -1,0 +1,199 @@
+/* Vote results, round outcomes and scores, shared by the stage and phones. */
+.vote-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--op-space-medium);
+
+  .vote-result__role {
+    margin: 0;
+    padding: 0.1em 0.5em;
+    font-family: var(--itk-font-hand);
+    font-size: 1.8em;
+    color: var(--itk-on-highlight);
+    background-color: var(--itk-highlight-mint);
+    rotate: -1.5deg;
+
+    &.vote-result__role--imposter {
+      background-color: var(--itk-highlight-pink);
+    }
+  }
+}
+
+/* The tally, like marks scratched next to names. */
+.ballot-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-x-small);
+  inline-size: min(40rem, 100%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .ballot-list__row {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) 2fr auto;
+    align-items: center;
+    gap: var(--op-space-medium);
+    padding-block: var(--op-space-2x-small);
+    border-block-end: 1px solid var(--itk-rule);
+  }
+
+  .ballot-list__target {
+    display: flex;
+    align-items: center;
+    gap: var(--op-space-x-small);
+    font-family: var(--itk-font-hand);
+    font-size: 1.2em;
+    color: var(--itk-ink-strong);
+  }
+
+  .ballot-list__skip {
+    color: var(--itk-pencil-soft);
+  }
+
+  .ballot-list__voters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--op-space-3x-small);
+  }
+
+  .ballot-list__count {
+    font-family: var(--itk-font-hand);
+    font-size: 1.6em;
+    font-weight: var(--op-font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    color: var(--itk-ink-strong);
+  }
+}
+
+/* Who won the round, with the secret word finally written out. */
+.round-outcome {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--op-space-large);
+
+  .round-outcome__winner {
+    margin: 0;
+    padding: 0 0.25em;
+    font-family: var(--itk-font-hand);
+    font-size: clamp(var(--op-font-4x-large), 6vw, var(--op-font-6x-large));
+    font-weight: var(--op-font-weight-extra-bold);
+    font-variation-settings: 'INFM' 60, 'BNCE' 40;
+    line-height: 1.05;
+    color: var(--itk-on-highlight);
+    background-color: var(--itk-highlight-mint);
+    rotate: -2deg;
+  }
+
+  .round-outcome__reveal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--op-space-x-large);
+  }
+
+  .round-outcome__word {
+    font-family: var(--itk-font-hand);
+    font-size: 2em;
+    color: var(--itk-ink-strong);
+  }
+
+  .round-outcome__imposters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--op-space-small);
+  }
+
+  .round-outcome__label {
+    color: var(--itk-pencil-soft);
+  }
+
+  .round-outcome__imposter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--op-space-x-small);
+    font-family: var(--itk-font-hand);
+    font-size: 1.3em;
+    color: var(--itk-ink-strong);
+  }
+
+  &.round-outcome--imposters .round-outcome__winner {
+    background-color: var(--itk-highlight-pink);
+  }
+}
+
+/* Scores in a column down the page, the leader highlighted. */
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-small);
+
+  .leaderboard__title {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: 1.8em;
+    color: var(--itk-ink-strong);
+  }
+
+  .leaderboard__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .leaderboard__row {
+    display: grid;
+    grid-template-columns: 1.75em auto 1fr auto auto;
+    align-items: center;
+    gap: var(--op-space-small);
+    min-block-size: var(--itk-rule-gap);
+    padding-inline: var(--op-space-x-small);
+
+    &.leaderboard__row--first {
+      background-color: var(--itk-highlight-yellow);
+      color: var(--itk-on-highlight);
+
+      .leaderboard__name,
+      .leaderboard__points,
+      .leaderboard__rank {
+        color: var(--itk-on-highlight);
+      }
+    }
+  }
+
+  .leaderboard__rank {
+    font-variant-numeric: tabular-nums;
+    color: var(--itk-pencil-soft);
+  }
+
+  .leaderboard__name {
+    overflow: hidden;
+    font-family: var(--itk-font-hand);
+    font-size: 1.2em;
+    color: var(--itk-ink-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .leaderboard__gain {
+    font-weight: var(--op-font-weight-bold);
+    color: var(--op-color-alerts-notice-base);
+  }
+
+  .leaderboard__points {
+    font-family: var(--itk-font-hand);
+    font-size: 1.4em;
+    font-weight: var(--op-font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    color: var(--itk-ink-strong);
+  }
+
+  .leaderboard__crown {
+    margin: 0;
+    font-family: var(--itk-font-hand);
+    font-size: 1.4em;
+    color: var(--itk-ink-strong);
+  }
+}
