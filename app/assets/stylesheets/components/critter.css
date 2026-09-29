@@ -3,7 +3,7 @@
  * players are told apart by both the animal and the color. The art lives in app/assets/images/avatars.
  */
 .critter {
-  --critter-size: 2.75rem;
+  --critter-size: 4.4rem;
   --critter-hue: 229;
 
   display: inline-grid;
@@ -24,10 +24,10 @@
     color: transparent;
   }
 
-  &.critter--x-small { --critter-size: 1.875rem; }
-  &.critter--small { --critter-size: 2rem; }
-  &.critter--large { --critter-size: 4.5rem; }
-  &.critter--x-large { --critter-size: 7rem; }
+  &.critter--x-small { --critter-size: 3rem; }
+  &.critter--small { --critter-size: 3.6rem; }
+  &.critter--large { --critter-size: 7.2rem; }
+  &.critter--x-large { --critter-size: 11.2rem; }
 
   &.critter--otter { --critter-hue: 25; }
   &.critter--fox { --critter-hue: 15; }
@@ -55,7 +55,7 @@
 /* The grid of animals to pick from. Taken ones are greyed and crossed out. */
 .avatar-picker {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
   gap: var(--op-space-small);
   margin: 0;
   padding: 0;

@@ -1,6 +1,6 @@
 /* How to play and Rules: a page of notes worth reading. */
 .prose {
-  max-inline-size: 42rem;
+  max-inline-size: 68rem;
   margin-inline: auto;
   line-height: var(--op-line-height-loose);
   color: var(--itk-pencil);
@@ -48,7 +48,7 @@
 
   .steps__item {
     position: relative;
-    padding-inline-start: 3.5rem;
+    padding-inline-start: 5.6rem;
     counter-increment: steps;
 
     &::before {
@@ -58,8 +58,8 @@
       inset-block-start: 0.2rem;
       display: grid;
       place-items: center;
-      inline-size: 2.5rem;
-      block-size: 2.5rem;
+      inline-size: 4rem;
+      block-size: 4rem;
       border: 2px solid var(--itk-ink);
       border-radius: var(--op-radius-circle);
       font-family: var(--itk-font-hand);

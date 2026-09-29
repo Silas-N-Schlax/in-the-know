@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--op-space-large);
-  max-inline-size: 30rem;
+  max-inline-size: 48rem;
   margin-inline: auto;
 
   .phone__header {
@@ -195,7 +195,7 @@
   gap: var(--op-space-small);
 
   .peek__button {
-    min-block-size: 3.5rem;
+    min-block-size: 5.2rem;
     user-select: none;
     touch-action: none;
   }
@@ -215,7 +215,7 @@
 /* Vote choices as big animal stickers, Skip on its own line. */
 .vote-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   gap: var(--op-space-small);
   margin: 0;
   padding: 0;
@@ -248,7 +248,7 @@
     &.vote-grid__choice--skip {
       flex-direction: row;
       justify-content: center;
-      min-block-size: 3.5rem;
+      min-block-size: 5.2rem;
       font-family: var(--itk-font-hand);
       font-size: var(--op-font-x-large);
       color: var(--itk-pencil);

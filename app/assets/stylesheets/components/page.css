@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--op-space-large);
-  max-inline-size: 64rem;
+  max-inline-size: 100rem;
   margin-inline: auto;
 
   .page__header {
@@ -30,7 +30,7 @@
   }
 
   &.page--narrow {
-    max-inline-size: 40rem;
+    max-inline-size: 64rem;
   }
 }
 

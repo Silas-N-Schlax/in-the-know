@@ -46,7 +46,7 @@
 
   .stage__split {
     display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+    grid-template-columns: minmax(0, 3fr) minmax(28rem, 2fr);
     align-items: start;
     gap: var(--op-space-2x-large);
   }
@@ -182,7 +182,7 @@
   margin: 0;
   padding: 0.05em 0.25em;
   font-family: var(--itk-font-hand);
-  font-size: clamp(5rem, 12vw, 11rem);
+  font-size: clamp(8rem, 12vw, 20rem);
   font-weight: var(--op-font-weight-extra-bold);
   font-variation-settings: 'INFM' 30, 'BNCE' 30;
   line-height: 1;
@@ -204,7 +204,7 @@
 /* The QR code, taped onto the page. */
 .qr {
   position: relative;
-  inline-size: min(15rem, 60%);
+  inline-size: min(24rem, 60%);
   padding: var(--op-space-small);
   border-radius: var(--op-radius-small);
   background-color: hsl(0deg 0% 100%);
@@ -216,8 +216,8 @@
     position: absolute;
     inset-block-start: -0.7rem;
     inset-inline-start: 50%;
-    inline-size: 5rem;
-    block-size: 1.4rem;
+    inline-size: 8rem;
+    block-size: 2.2rem;
     translate: -50% 0;
     rotate: -4deg;
     background-color: var(--itk-tape);
@@ -234,7 +234,7 @@
 /* Players written into the page like a class roster, one line each. */
 .roster {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
   gap: 0 var(--op-space-large);
   margin: 0;
   padding: 0;
@@ -271,8 +271,8 @@
   .roster__picking {
     display: inline-grid;
     place-items: center;
-    inline-size: 2.75rem;
-    block-size: 2.75rem;
+    inline-size: 4.4rem;
+    block-size: 4.4rem;
     border: 2px dashed var(--itk-rule);
     border-radius: var(--op-radius-circle);
     font-size: var(--op-font-2x-small);
@@ -300,8 +300,8 @@
   .roster__remove {
     display: inline-grid;
     place-items: center;
-    inline-size: 2rem;
-    block-size: 2rem;
+    inline-size: 3.6rem;
+    block-size: 3.6rem;
     border-radius: var(--op-radius-circle);
     color: var(--itk-pencil-soft);
 
@@ -360,7 +360,7 @@
 
   .timer__clock {
     font-family: var(--itk-font-hand);
-    font-size: clamp(5rem, 14vw, 12rem);
+    font-size: clamp(8rem, 14vw, 20rem);
     font-weight: var(--op-font-weight-bold);
     font-variant-numeric: tabular-nums;
     line-height: 1;

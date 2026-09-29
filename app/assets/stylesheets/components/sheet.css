@@ -14,8 +14,8 @@
     position: absolute;
     inset-block-start: calc(var(--op-space-small) * -1);
     inset-inline-start: 50%;
-    inline-size: 6rem;
-    block-size: 1.5rem;
+    inline-size: 9rem;
+    block-size: 2.2rem;
     translate: -50% 0;
     rotate: -3deg;
     background-color: var(--itk-tape);

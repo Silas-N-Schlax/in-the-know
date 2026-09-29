@@ -22,14 +22,14 @@
         li.ballot-list__row
           span.ballot-list__target
             - if target
-              = render 'players/avatar', avatar: target.avatar, size: :small, label: target.name
+              = render 'players/avatar', avatar: target.avatar, size: :medium, label: target.name
               span = target.name
             - else
               span.ballot-list__skip Skip
           span.ballot-list__voters
             - list.each do |ballot|
               - if game.votes_open?
-                = render 'players/avatar', avatar: ballot.voter_seat.avatar, size: 'x-small', label: ballot.voter_seat.name
+                = render 'players/avatar', avatar: ballot.voter_seat.avatar, size: :small, label: ballot.voter_seat.name
               - else
-                = render 'players/avatar', avatar: Player::ANONYMOUS_AVATAR, size: 'x-small', label: 'Anonymous vote'
+                = render 'players/avatar', avatar: Player::ANONYMOUS_AVATAR, size: :small, label: 'Anonymous vote'
           span.ballot-list__count = list.size

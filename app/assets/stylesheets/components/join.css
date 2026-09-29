@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: stretch;
   gap: var(--op-space-x-large);
-  max-inline-size: 28rem;
+  max-inline-size: 44rem;
   margin-inline: auto;
   padding-block-start: var(--op-space-x-large);
 
@@ -64,7 +64,7 @@
 
 /* Host sign in and account setup share one narrow sheet. */
 .auth {
-  max-inline-size: 26rem;
+  max-inline-size: 42rem;
   margin-inline: auto;
   padding-block-start: var(--op-space-x-large);
 

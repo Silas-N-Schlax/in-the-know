@@ -20,7 +20,7 @@
   }
 
   &.btn--large {
-    min-block-size: 3.5rem;
+    min-block-size: 5.2rem;
     padding-inline: var(--op-space-x-large);
     font-family: var(--itk-font-hand);
     font-size: var(--op-font-x-large);
