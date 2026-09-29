@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        name: "Your name"
+        password_confirmation: "Password again"
+  devise:
+    invitations:
+      updated: "You're all set. Welcome to In the Know!"

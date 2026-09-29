@@ -1,0 +1,9 @@
+# Postgres LISTEN/NOTIFY carries Turbo Stream broadcasts across Puma workers with no extra services.
+development:
+  adapter: postgresql
+
+test:
+  adapter: async
+
+production:
+  adapter: postgresql
