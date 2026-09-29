@@ -1,0 +1,35 @@
+- content_for :corner_start do
+  = link_to 'Host sign in', new_user_session_path, class: 'btn btn--small btn--pill btn--no-border'
+
+.join
+  .join__intro
+    = render 'application/wordmark', size: :large
+    p.join__tagline Everyone knows the word. Almost everyone.
+
+  - if @join.needs_rejoin_confirmation?
+    .card.sheet.sheet--taped.join__card
+      .card__body.stack
+        h2.join__heading #{@join.existing_player.name} is already in this game
+        p If that's you on a new phone, rejoin and pick up where you left off. Your old phone will be signed out.
+      .card__footer.join__choices
+        = form_with model: @join, scope: :join, url: join_path do |f|
+          = f.hidden_field :code
+          = f.hidden_field :name
+          = f.hidden_field :rejoin, value: true
+          = f.submit "I'm #{@join.existing_player.name}, rejoin", class: 'btn btn--primary btn--large'
+        = link_to 'Pick a different name', new_join_path(code: @join.code), class: 'btn btn--large'
+  - else
+    = simple_form_for @join, as: :join, url: join_path, html: { class: 'card sheet sheet--taped sheet--tilted join__card', autocomplete: 'off' } do |f|
+      .card__body.stack
+        - if @join.errors[:base].any?
+          .alert.alert--danger role="alert"
+            .alert__messages
+              - @join.errors[:base].each do |message|
+                .alert__description = message
+        = f.input :code, label: 'Game code', required: true,
+          input_html: { class: 'join__code', maxlength: Game::CODE_LENGTH, autocapitalize: 'characters', autocorrect: 'off', spellcheck: false, inputmode: 'text', autofocus: @join.code.blank? }
+        = f.input :name, label: 'Your name', required: true,
+          hint: "Up to #{Player::NAME_MAX_LENGTH} characters. Use the same name to rejoin later.",
+          input_html: { maxlength: Player::NAME_MAX_LENGTH, autofocus: @join.code.present?, autocomplete: 'nickname' }
+      .card__footer
+        = f.submit 'Join game', class: 'btn btn--primary btn--large join__submit'

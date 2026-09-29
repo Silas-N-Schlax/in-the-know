@@ -1,0 +1,25 @@
+.phone__header
+  = render 'players/avatar', avatar: player.avatar, size: 'x-large', label: player.avatar_label
+  h1.phone__title You're in, #{player.name}
+  p.phone__lede Waiting for the host to start. Keep this screen open.
+
+- if player.backup?
+  section.backup-panel
+    h2.backup-panel__title This is a backup phone
+    p Add people without a phone. You'll pass this phone to each of them when it's their turn.
+    - if player.handled_players.any?
+      ul.roster.roster--compact
+        - player.handled_players.each do |guest|
+          li.roster__item
+            = render 'players/avatar', avatar: guest.avatar, size: :small, label: guest.avatar_label
+            span.roster__name = guest.name
+    - if game.joinable?
+      = link_to new_play_player_path, class: 'btn btn--primary btn--large' do
+        = icon('user-plus', size: :small)
+        span Add player
+    - else
+      p.form-hint The game is full.
+
+- else
+  p.phone__hint You can change your animal until the game starts.
+  = link_to 'Change animal', edit_play_avatar_path, class: 'btn'

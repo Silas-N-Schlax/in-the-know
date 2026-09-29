@@ -1,0 +1,24 @@
+- content_for :title, 'Your games'
+= render 'host/header'
+
+.page
+  .page__header
+    h1.page__title Your games
+    = link_to new_host_game_path, class: 'btn btn--primary' do
+      = icon('plus', size: :small)
+      span New game
+
+  - if @games.empty?
+    .empty-state
+      p.empty-state__title No games yet
+      p Start one and share the code with the room.
+  - else
+    ul.game-list
+      - @games.each do |game|
+        li.game-list__item data-testid=dom_id(game)
+          = link_to host_game_path(game), class: 'game-list__link' do
+            span.game-list__code = game.code
+            span.game-list__meta
+              = pluralize(game.players.size, 'player')
+              |  · #{game.round_count} rounds · #{l(game.created_at.to_date, format: :long)}
+            span.tag class="game-list__status game-list__status--#{game.status.dasherize}" = game.status.humanize

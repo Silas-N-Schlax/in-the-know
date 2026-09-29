@@ -1,0 +1,28 @@
+- content_for :title, 'Add player'
+= turbo_stream_from @guest.game
+
+.phone
+  .phone__header
+    h1.phone__title Add a player
+    p.phone__lede Type their name, then tap their animal.
+
+  = simple_form_for @guest, url: play_players_path, html: { class: 'stack' } do |f|
+    = f.error_notification
+    - if @guest.errors[:base].any?
+      .alert.alert--danger role="alert"
+        .alert__messages
+          .alert__description = @guest.errors[:base].to_sentence
+    = f.input :name, required: true, input_html: { maxlength: Player::NAME_MAX_LENGTH, autofocus: true, autocomplete: 'off' }
+    - if @guest.errors[:avatar].any?
+      p.form-error #{@guest.avatar_label} #{@guest.errors[:avatar].first}
+    - taken = @guest.game.players.where.not(avatar: nil).pluck(:avatar)
+    ul.avatar-picker
+      - Player::AVATARS.each do |avatar|
+        li.avatar-picker__item
+          = button_tag type: 'submit', name: 'player[avatar]', value: avatar, disabled: taken.include?(avatar),
+            class: ['avatar-picker__choice', ('avatar-picker__choice--taken' if taken.include?(avatar))],
+            aria: { label: Player.avatar_label(avatar) } do
+            = render 'players/avatar', avatar:, size: :large
+            span.avatar-picker__name = Player.avatar_label(avatar)
+
+  = link_to 'Done adding', play_path, class: 'btn'

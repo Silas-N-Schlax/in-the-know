@@ -1,0 +1,10 @@
+- content_for :header do
+  header.host-header
+    = link_to host_games_path, class: 'host-header__brand', aria: { label: 'Your games' } do
+      = render 'application/wordmark', size: :small
+    nav.host-header__nav aria-label="Host"
+      = link_to 'Games', host_games_path, class: 'btn btn--no-border btn--small'
+      - if current_user.super_admin?
+        = link_to 'Users', admin_users_path, class: 'btn btn--no-border btn--small'
+      span.host-header__who = current_user.display_name
+      = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn--small', form: { data: { turbo: false } }

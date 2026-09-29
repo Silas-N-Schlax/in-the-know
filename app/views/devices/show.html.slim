@@ -1,0 +1,5 @@
+- content_for :title, 'Your screen'
+= turbo_stream_from @screen.game
+
+.phone data-testid="phone-screen"
+  = render @screen.partial, screen: @screen, game: @screen.game, player: @screen.player

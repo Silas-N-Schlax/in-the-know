@@ -1,0 +1,14 @@
+- content_for :title, 'Pick your animal'
+= turbo_stream_from @player.game
+
+.phone
+  .phone__header
+    h1.phone__title Pick your animal
+    p.phone__lede Hi #{@player.name}! Grey ones are taken.
+
+  - if @player.errors[:avatar].any?
+    .alert.alert--danger role="alert"
+      .alert__messages
+        .alert__description #{Player.avatar_label(@player.avatar_was || params[:avatar])} #{@player.errors[:avatar].first}
+
+  = render 'players/avatar_picker', game: @player.game, url: play_avatar_path, method: :patch, current: @player.avatar_in_database

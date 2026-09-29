@@ -1,0 +1,4 @@
+- size = local_assigns.fetch(:size, :medium)
+- label = local_assigns[:label]
+span.critter class="critter--#{size} critter--#{avatar.to_s.dasherize}" title=label
+  img.critter__image src=avatar_src(avatar) alt=label.to_s loading="lazy"

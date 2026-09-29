@@ -1,0 +1,10 @@
+- round = game.current_round
+.status-bar
+  = render 'players/avatar', avatar: player.avatar, size: :small, label: player.avatar_label
+  span.status-bar__name = player.name
+  - if round
+    span.status-bar__where
+      | Round #{round.number}/#{game.round_count}
+      - unless round.revealing? || round.finished?
+        |  · Trip #{round.current_rotation}/#{game.rotations_per_round}
+  span.status-bar__points #{player.points} pts

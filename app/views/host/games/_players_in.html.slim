@@ -1,0 +1,13 @@
+- round = game.current_round
+ul.roster.roster--stage
+  - round.seats.includes(:player).order('players.name').each do |seat|
+    li.roster__item class=('roster__item--out' if seat.out?) data-testid=dom_id(seat)
+      = render 'players/avatar', avatar: seat.avatar, size: :medium, label: seat.avatar_label
+      span.roster__name = seat.name
+      - if seat.out?
+        span.roster__status = seat.removed? ? 'Removed' : 'Out'
+      - elsif local_assigns[:voted_ids]
+        span.roster__status class=('roster__status--done' if voted_ids.include?(seat.id)) = voted_ids.include?(seat.id) ? 'Voted' : 'Thinking'
+      - if seat.playing?
+        = link_to new_host_player_removal_path(seat.player), class: 'roster__remove', data: { turbo_frame: 'modal' }, aria: { label: "Remove #{seat.name}" } do
+          = icon('x', size: :small)

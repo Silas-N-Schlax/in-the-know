@@ -1,0 +1,45 @@
+.lobby
+  .lobby__join
+    p.join-code aria-label="Join code #{game.code.chars.join(' ')}"
+      - game.code.chars.each do |char|
+        span.join-code__char = char
+    p.lobby__how
+      | Go to
+      span.lobby__url<> = request.host_with_port
+      | and enter the code, or scan:
+    .qr = screen.join_qr_svg
+    p.lobby__settings
+      = "#{game.round_count} rounds · #{game.rotations_per_round} trips each · "
+      = game.category_random? ? 'Random categories' : game.category
+
+  .lobby__room
+    .lobby__room-header
+      h1.stage__title Waiting for players
+      p.stage__count #{game.players.size} of #{game.player_cap}
+    - if screen.lobby_players.empty?
+      p.lobby__empty Scan the code or head to the home page on your phone.
+    - else
+      ul.roster
+        - screen.lobby_players.each do |player|
+          li.roster__item data-testid=dom_id(player)
+            - if player.avatar
+              = render 'players/avatar', avatar: player.avatar, size: :medium, label: player.avatar_label
+            - else
+              span.roster__picking Picking…
+            span.roster__name = player.name
+            - if player.backup?
+              span.tag.tag--info Backup phone
+            - elsif player.handled?
+              span.roster__via via #{player.handler.name}
+            .roster__actions
+              - unless player.handled?
+                - if player.backup?
+                  = button_to 'Undo backup', host_player_backup_path(player), method: :delete, class: 'btn btn--small btn--no-border'
+                - else
+                  = button_to 'Make backup', host_player_backup_path(player), class: 'btn btn--small btn--no-border'
+              = link_to 'Remove', new_host_player_removal_path(player), class: 'btn btn--small btn--no-border', data: { turbo_frame: 'modal' }
+
+    .lobby__start
+      = button_to 'Start game', host_game_launch_path(game), class: 'btn btn--primary btn--large', disabled: !game.ready_to_launch?
+      - unless game.ready_to_launch?
+        p.form-hint Need at least 3 players with animals picked.

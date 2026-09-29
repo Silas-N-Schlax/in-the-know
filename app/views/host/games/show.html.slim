@@ -1,0 +1,7 @@
+- content_for :title, "Game #{@screen.game.code}"
+- content_for :body_class, 'app-body--stage'
+= render 'host/header'
+= turbo_stream_from @screen.game
+
+.stage data-testid="host-screen"
+  = render @screen.partial, screen: @screen, game: @screen.game

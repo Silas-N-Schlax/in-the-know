@@ -1,0 +1,11 @@
+/ One button per animal. Taken ones are disabled; the server still double-checks on submit.
+- taken = game.players.where.not(avatar: nil).pluck(:avatar) - [current]
+- extra_fields = local_assigns.fetch(:extra_fields, {})
+ul.avatar-picker
+  - Player::AVATARS.each do |avatar|
+    li.avatar-picker__item
+      = button_to url, method:, params: extra_fields.merge(avatar:),
+        class: ['avatar-picker__choice', ('avatar-picker__choice--taken' if taken.include?(avatar)), ('avatar-picker__choice--current' if avatar == current)],
+        disabled: taken.include?(avatar), form: { class: 'avatar-picker__form' }, aria: { label: Player.avatar_label(avatar) } do
+        = render 'players/avatar', avatar: avatar, size: :large
+        span.avatar-picker__name = Player.avatar_label(avatar)
