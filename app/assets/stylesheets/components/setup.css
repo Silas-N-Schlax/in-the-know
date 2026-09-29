@@ -38,7 +38,7 @@
   &.segmented-control--wrap {
     inline-size: 100%;
     grid-auto-flow: row;
-    grid-template-columns: repeat(auto-fill, minmax(2.75rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(4.4rem, 1fr));
     block-size: auto;
   }
 
@@ -71,5 +71,117 @@
     &:has(:checked) {
       background-color: color-mix(in srgb, var(--itk-highlight-yellow) 45%, transparent);
     }
+  }
+}
+
+/* Full-width pill rows share the width evenly, so every option grows to fill the row. */
+.segmented-control {
+  &.segmented-control--full-width {
+    grid-auto-columns: 1fr;
+  }
+}
+
+/* Player count: drag a highlighter-yellow thumb along a ballpoint line. */
+.range-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-x-small);
+
+  .range-field__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .range-field__value {
+    min-inline-size: 2ch;
+    font-family: var(--itk-font-hand);
+    font-size: var(--op-font-4x-large);
+    font-weight: var(--op-font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    text-align: end;
+    color: var(--itk-ink-strong);
+  }
+
+  .range-field__input {
+    --range-fill: 50%;
+    --range-thumb: 3.6rem;
+
+    inline-size: 100%;
+    block-size: 4.4rem;
+    margin: 0;
+    background: transparent;
+    cursor: grab;
+    appearance: none;
+    touch-action: pan-y;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &::-webkit-slider-runnable-track {
+      block-size: 0.8rem;
+      border-radius: var(--op-radius-pill);
+      background: linear-gradient(to right, var(--itk-ink) var(--range-fill), var(--itk-rule) var(--range-fill));
+    }
+
+    &::-moz-range-track {
+      block-size: 0.8rem;
+      border-radius: var(--op-radius-pill);
+      background: var(--itk-rule);
+    }
+
+    &::-moz-range-progress {
+      block-size: 0.8rem;
+      border-radius: var(--op-radius-pill);
+      background: var(--itk-ink);
+    }
+
+    &::-webkit-slider-thumb {
+      inline-size: var(--range-thumb);
+      block-size: var(--range-thumb);
+      margin-block-start: calc((0.8rem - var(--range-thumb)) / 2);
+      border: 3px solid var(--itk-ink-strong);
+      border-radius: var(--op-radius-circle);
+      background: var(--itk-highlight-yellow);
+      box-shadow: var(--itk-sheet-shadow);
+      appearance: none;
+      transition: scale 160ms var(--itk-ease-out);
+    }
+
+    &::-moz-range-thumb {
+      inline-size: var(--range-thumb);
+      block-size: var(--range-thumb);
+      border: 3px solid var(--itk-ink-strong);
+      border-radius: var(--op-radius-circle);
+      background: var(--itk-highlight-yellow);
+      box-shadow: var(--itk-sheet-shadow);
+    }
+
+    &:active::-webkit-slider-thumb {
+      scale: 1.12;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        outline: 3px solid var(--itk-highlight-pink);
+        outline-offset: 3px;
+      }
+
+      &::-moz-range-thumb {
+        outline: 3px solid var(--itk-highlight-pink);
+        outline-offset: 3px;
+      }
+    }
+  }
+
+  .range-field__ends {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--op-font-small);
+    color: var(--itk-pencil-soft);
   }
 }

@@ -22,6 +22,9 @@ application.register("peek", PeekController)
 import PreventMorphController from "./prevent_morph_controller"
 application.register("prevent-morph", PreventMorphController)
 
+import RangeValueController from "./range_value_controller"
+application.register("range-value", RangeValueController)
+
 import ThemeController from "./theme_controller"
 application.register("theme", ThemeController)
 

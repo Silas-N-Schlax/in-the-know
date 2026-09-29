@@ -10,45 +10,54 @@
 
     section.setup__section
       h2.setup__heading Players
-      = f.input :player_cap, as: :segmented_control, label: 'Most players', collection: pill_options(Game::PLAYER_CAP_RANGE),
-        size: :small, class: 'segmented-control--wrap', wrapper_html: { data: { testid: 'player_cap' } },
-        input_html: { data: { action: 'imposter-range#refresh', imposter_range_target: 'cap' } }
+      .range-field data-testid="player_cap" data-controller="range-value"
+        .range-field__header
+          = f.label :player_cap, 'Most players', class: 'form-label'
+          output.range-field__value for="game_player_cap" data-range-value-target="output" = @game.player_cap
+        = f.range_field :player_cap, min: Game::PLAYER_CAP_RANGE.min, max: Game::PLAYER_CAP_RANGE.max, step: 1,
+          class: 'range-field__input',
+          data: { range_value_target: 'input', imposter_range_target: 'cap', action: 'input->range-value#update input->imposter-range#refresh' }
+        .range-field__ends aria-hidden="true"
+          span = Game::PLAYER_CAP_RANGE.min
+          span = Game::PLAYER_CAP_RANGE.max
+        = f.error :player_cap, class: 'form-error'
+
       .setup__range
         p.setup__label Imposters each round
         p.form-hint Picked at random between the two. At most 1 for every 3 players, up to 6.
         = f.input :imposter_min, as: :segmented_control, label: 'Fewest', collection: pill_options(1..Game::IMPOSTER_LIMIT),
-          size: :small, wrapper_html: { data: { testid: 'imposter_min' } },
+          full_width: true, wrapper_html: { data: { testid: 'imposter_min' } },
           input_html: { data: { action: 'imposter-range#refresh', imposter_range_target: 'min' } }
         = f.input :imposter_max, as: :segmented_control, label: 'Most', collection: pill_options(1..Game::IMPOSTER_LIMIT),
-          size: :small, wrapper_html: { data: { testid: 'imposter_max' } },
+          full_width: true, wrapper_html: { data: { testid: 'imposter_max' } },
           input_html: { data: { action: 'imposter-range#refresh', imposter_range_target: 'max' } }
 
     section.setup__section
       h2.setup__heading Rounds
       = f.input :round_count, as: :segmented_control, label: 'Rounds', collection: pill_options(Game::ROUND_COUNT_RANGE),
-        size: :small, class: 'segmented-control--wrap', wrapper_html: { data: { testid: 'round_count' } }
+        class: 'segmented-control--wrap', wrapper_html: { data: { testid: 'round_count' } }
       = f.input :rotations_per_round, as: :segmented_control, label: 'Trips around the table each round',
-        collection: pill_options(Game::ROTATION_OPTIONS), size: :small, wrapper_html: { data: { testid: 'rotations_per_round' } }
+        collection: pill_options(Game::ROTATION_OPTIONS), full_width: true, wrapper_html: { data: { testid: 'rotations_per_round' } }
       = f.input :category_choice, as: :select, label: 'Category', collection: category_options, include_blank: false,
         hint: 'Everyone sees the category. Random picks a new one each round.'
 
     section.setup__section
       h2.setup__heading Voting
       = f.input :vote_visibility, as: :segmented_control, label: 'Votes',
-        collection: [['Open', 'open'], ['Anonymous', 'anonymous']], size: :small, wrapper_html: { data: { testid: 'vote_visibility' } },
+        collection: [['Open', 'open'], ['Anonymous', 'anonymous']], full_width: true, wrapper_html: { data: { testid: 'vote_visibility' } },
         hint: 'Open shows who voted for whom. Anonymous shows only the totals.'
       = f.input :reveal_on_vote_out, as: :segmented_control, label: 'When someone is voted out',
-        collection: [['Reveal their role', true], ['Keep it secret', false]], size: :small, wrapper_html: { data: { testid: 'reveal_on_vote_out' } }
+        collection: [['Reveal their role', true], ['Keep it secret', false]], full_width: true, wrapper_html: { data: { testid: 'reveal_on_vote_out' } }
 
     section.setup__section data-controller="toggle-on-value" data-toggle-on-value-show-value="timed"
       h2.setup__heading Discussion
       = f.input :pacing, as: :segmented_control, label: 'Pacing',
-        collection: [['Timed', 'timed'], ['Manual', 'manual']], size: :small, wrapper_html: { data: { testid: 'pacing' } },
+        collection: [['Timed', 'timed'], ['Manual', 'manual']], full_width: true, wrapper_html: { data: { testid: 'pacing' } },
         input_html: { data: { action: 'toggle-on-value#update' } },
         hint: 'Timed opens voting when the timer runs out. Manual waits for you.'
       div data-toggle-on-value-target="panel"
         = f.input :discussion_seconds, as: :segmented_control, label: 'Timer',
-          collection: Game::DISCUSSION_OPTIONS.map { |s| [discussion_label(s), s] }, size: :small,
+          collection: Game::DISCUSSION_OPTIONS.map { |s| [discussion_label(s), s] }, full_width: true,
           wrapper_html: { data: { testid: 'discussion_seconds' } }
 
     .form-actions

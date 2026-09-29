@@ -10,7 +10,7 @@ RSpec.describe 'Host creates a game', type: :system do
   it 'sets up a game and shows the join code' do
     visit host_games_path
     click_on 'New game'
-    within(data_test('player_cap')) { choose '9' }
+    find_field('Most players').set(9)
     within(data_test('round_count')) { choose '4' }
     within(data_test('rotations_per_round')) { choose '5' }
     within(data_test('imposter_min')) { choose '1' }
@@ -32,7 +32,7 @@ RSpec.describe 'Host creates a game', type: :system do
 
   it 'explains settings that do not fit together' do
     visit new_host_game_path
-    within(data_test('player_cap')) { choose '5' }
+    find_field('Most players').set(5)
     within(data_test('imposter_min')) { choose '1' }
     within(data_test('imposter_max')) { choose '3' }
     click_on 'Create game'

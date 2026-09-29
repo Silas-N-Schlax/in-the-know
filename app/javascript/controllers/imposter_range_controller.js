@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 // Keeps the imposter range honest while the host fiddles with settings:
-// options above (player cap ÷ 3, up to the limit) are disabled, and min never passes max.
+// options above (player cap slider ÷ 3, up to the limit) are disabled, and min never passes max.
 export default class extends Controller {
   static targets = ['cap', 'min', 'max']
   static values = { perImposter: Number, limit: Number }
@@ -11,7 +11,7 @@ export default class extends Controller {
   }
 
   refresh(event) {
-    const allowed = Math.max(1, Math.min(Math.floor(this.selected(this.capTargets) / this.perImposterValue), this.limitValue))
+    const allowed = Math.max(1, Math.min(Math.floor(Number(this.capTarget.value) / this.perImposterValue), this.limitValue))
 
     this.limitOptions(this.minTargets, allowed)
     this.limitOptions(this.maxTargets, allowed)
