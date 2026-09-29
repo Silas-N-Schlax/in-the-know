@@ -15,7 +15,11 @@ RSpec.describe 'Host creates a game', type: :system do
     within(data_test('rotations_per_round')) { choose '5' }
     within(data_test('imposter_min')) { choose '1' }
     within(data_test('imposter_max')) { choose '2' }
-    select 'Around the House', from: 'Category'
+    select 'Everyday', from: 'Category'
+    within(data_test('difficulties')) do
+      uncheck 'Easy'
+      uncheck 'Medium'
+    end
     within(data_test('vote_visibility')) { choose 'Anonymous' }
     within(data_test('pacing')) { choose 'Timed' }
     within(data_test('discussion_seconds')) { choose '1m' }
@@ -26,8 +30,8 @@ RSpec.describe 'Host creates a game', type: :system do
     expect(page).to have_content(game.code)
     expect(page).to have_content('Waiting for players')
     expect(game).to have_attributes(player_cap: 9, round_count: 4, rotations_per_round: 5,
-                                    imposter_max: 2, category: 'Around the House',
-                                    vote_visibility: 'anonymous', discussion_seconds: 60)
+                                    imposter_max: 2, category: 'Everyday',
+                                    vote_visibility: 'anonymous', discussion_seconds: 60, difficulties: [2])
   end
 
   it 'explains settings that do not fit together' do
@@ -38,5 +42,20 @@ RSpec.describe 'Host creates a game', type: :system do
     click_on 'Create game'
 
     expect(page).to have_content('can be at most 1 for 5 players')
+  end
+
+  it 'only offers imposter counts the player count allows', :js do
+    visit new_host_game_path
+
+    find_field('Most players').set(6)
+    within(data_test('imposter_max')) do
+      expect(page).to have_css('.segmented-control__label', text: /\A[12]\z/, count: 2)
+      expect(page).to have_no_css('.segmented-control__label', text: '3')
+    end
+
+    find_field('Most players').set(20)
+    within(data_test('imposter_max')) do
+      expect(page).to have_css('.segmented-control__label', count: 6)
+    end
   end
 end

@@ -45,6 +45,11 @@
   .segmented-control__label {
     font-variant-numeric: tabular-nums;
 
+    /* Options the current settings can't use are hidden, and the row resizes to fit the rest. */
+    &[hidden] {
+      display: none;
+    }
+
     &.segmented-control__label--in-range {
       background-color: var(--itk-highlight-yellow);
       color: var(--itk-on-highlight);
