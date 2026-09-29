@@ -1,0 +1,16 @@
+- game = @deletion.game
+- content_for :modal_header do
+  h2.modal__title Delete game #{game.code}?
+
+= simple_form_for @deletion, as: :delete_game, url: host_game_deletion_path(game), html: { id: 'deletion-form', class: 'stack' } do |f|
+  p
+    | This removes the game, its players, every round and all the scores for good.
+    - if game.in_progress?
+      |  Anyone still playing will be sent back to the join screen.
+  = f.input :code, label: 'Type the game code', required: true,
+    input_html: { class: 'join__code', maxlength: Game::CODE_LENGTH, autocapitalize: 'characters', autocomplete: 'off', spellcheck: false, autofocus: true },
+    hint: "It's #{game.code}."
+  = f.input :confirmed, as: :boolean, label: "I understand this can't be undone", required: true
+
+- content_for :modal_footer do
+  = button_tag 'Delete game', form: 'deletion-form', class: 'btn btn--destructive'

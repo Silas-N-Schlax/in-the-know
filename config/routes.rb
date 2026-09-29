@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         resource :rotation, only: :create
         resource :ballot_box, only: %i[create destroy]
         resource :finish, only: :create
+        resource :deletion, only: %i[new create]
       end
     end
     resources :players, only: [] do

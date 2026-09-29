@@ -24,6 +24,9 @@
     ul.game-list
       - @games.each do |game|
         li.game-list__item data-testid=dom_id(game)
+          = link_to new_host_game_deletion_path(game), class: 'btn btn--small btn--no-border game-list__delete', data: { turbo_frame: 'modal' }, aria: { label: "Delete game #{game.code}" } do
+            = icon('trash', size: :small)
+            span Delete
           = link_to host_game_path(game), class: 'game-list__link' do
             span.game-list__code = game.code
             span.game-list__meta
