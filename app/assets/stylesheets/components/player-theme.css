@@ -1,0 +1,66 @@
+/*
+ * Every animal has its own ink: a darker pen for light paper and a brighter gel pen for the
+ * black sketchbook. On a phone the whole page wears the player's ink (margin strip, buttons,
+ * name, the envelope's address); on the host screen it colors each player's name.
+ */
+.player-theme {
+  --player-ink: light-dark(var(--player-ink-light), var(--player-ink-dark));
+  --player-on-ink: light-dark(hsl(0deg 0% 100%), hsl(236deg 40% 12%));
+  --player-wash: color-mix(in srgb, var(--player-ink) 16%, transparent);
+
+  /* The margin line down the left of the page is drawn in the player's ink. */
+  --itk-margin-red: var(--player-ink);
+
+  &.player-theme--otter { --player-ink-light: #b45309; --player-ink-dark: #fdba74; }
+  &.player-theme--fox { --player-ink-light: #c2410c; --player-ink-dark: #fb923c; }
+  &.player-theme--axolotl { --player-ink-light: #be185d; --player-ink-dark: #f9a8d4; }
+  &.player-theme--capybara { --player-ink-light: #92400e; --player-ink-dark: #fbbf24; }
+  &.player-theme--penguin { --player-ink-light: #0369a1; --player-ink-dark: #7dd3fc; }
+  &.player-theme--frog { --player-ink-light: #3f7d20; --player-ink-dark: #a3e635; }
+  &.player-theme--owl { --player-ink-light: #a16207; --player-ink-dark: #fde047; }
+  &.player-theme--hedgehog { --player-ink-light: #7c4a1e; --player-ink-dark: #e0b084; }
+  &.player-theme--llama { --player-ink-light: #854d0e; --player-ink-dark: #fef08a; }
+  &.player-theme--octopus { --player-ink-light: #7e22ce; --player-ink-dark: #d8b4fe; }
+  &.player-theme--flamingo { --player-ink-light: #e11d48; --player-ink-dark: #fda4af; }
+  &.player-theme--sloth { --player-ink-light: #4d7c0f; --player-ink-dark: #bef264; }
+  &.player-theme--walrus { --player-ink-light: #0e7490; --player-ink-dark: #67e8f9; }
+  &.player-theme--koala { --player-ink-light: #4338ca; --player-ink-dark: #a5b4fc; }
+  &.player-theme--narwhal { --player-ink-light: #0f766e; --player-ink-dark: #5eead4; }
+  &.player-theme--platypus { --player-ink-light: #047857; --player-ink-dark: #6ee7b7; }
+  &.player-theme--red-panda { --player-ink-light: #b91c1c; --player-ink-dark: #fca5a5; }
+  &.player-theme--goose { --player-ink-light: #3f6212; --player-ink-dark: #d9f99d; }
+  &.player-theme--shark { --player-ink-light: #1e40af; --player-ink-dark: #93c5fd; }
+  &.player-theme--toucan { --player-ink-light: #166534; --player-ink-dark: #4ade80; }
+
+  /* Phone pages: the player's own buttons, name and address. */
+  .btn.btn--primary {
+    background-color: var(--player-ink);
+    color: var(--player-on-ink);
+    box-shadow: 0 2px 0 color-mix(in srgb, var(--player-ink) 60%, black), 0 8px 18px -8px var(--player-ink);
+  }
+
+  .status-bar__name,
+  .handoff__name,
+  .envelope__address {
+    color: var(--player-ink);
+  }
+
+  .status-bar {
+    border-block-end-color: var(--player-ink);
+  }
+
+  .vote-grid__choice:hover {
+    border-color: var(--player-ink);
+  }
+
+  :focus-visible {
+    outline-color: var(--player-ink);
+  }
+
+  /* Host screen: a single player's line wears their ink. */
+  &.roster__item .roster__name,
+  &.leaderboard__row .leaderboard__name,
+  &.ballot-list__target {
+    color: var(--player-ink);
+  }
+}

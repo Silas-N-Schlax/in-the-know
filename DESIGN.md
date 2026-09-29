@@ -158,6 +158,12 @@ Depth is physical paper: sheets lie on the page with a soft two-layer shadow, an
 ### Sheet (`.sheet`)
 Raised paper with the sheet shadow. `.sheet--taped` adds a tape strip at the top and `.sheet--tilted` adds -0.6° of rotation. It pairs with Optics `.card`.
 
+### Player ink (`.player-theme`, `player_theme(player)` helper)
+Each of the 20 animals owns an ink color, with a darker pen for light paper and a brighter gel pen for dark (`--player-ink-light` / `--player-ink-dark`).
+- **On a phone:** the page wears the player's ink on the margin strip, primary buttons, status-bar name, handoff name, envelope address and focus ring. A backup phone switches to the ink of whoever it's being passed to.
+- **On the host screen:** each player's name is written in their ink in the roster, tally and scores.
+- **Headings** stay in ballpoint so pages still read as one system.
+
 ### Critter (`.critter`)
 Round animal sticker. Its color comes from `--critter-hue` per animal, lighter in light mode and deeper in dark mode. Sizes run from x-small (1.875rem) to x-large (7rem).
 

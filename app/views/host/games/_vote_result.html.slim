@@ -20,7 +20,7 @@
     ul.ballot-list aria-label="Votes"
       - ballots.group_by(&:target_seat).sort_by { |_seat, list| -list.size }.each do |target, list|
         li.ballot-list__row
-          span.ballot-list__target
+          span.ballot-list__target class=(player_theme(target.player) if target)
             - if target
               = render 'players/avatar', avatar: target.avatar, size: :medium, label: target.name
               span = target.name

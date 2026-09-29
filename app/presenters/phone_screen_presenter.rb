@@ -30,6 +30,15 @@ class PhoneScreenPresenter
     "devices/screens/#{phase}"
   end
 
+  # Whose colors the page wears: on a backup phone, whoever the phone is being passed to.
+  def theme_player
+    case phase
+    when :reveal then next_to_reveal.player
+    when :vote then next_to_vote.player
+    else player
+    end
+  end
+
   def device_players
     @device_players ||= player.device_players
   end

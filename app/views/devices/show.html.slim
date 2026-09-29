@@ -1,4 +1,5 @@
 - content_for :title, 'Your screen'
+- content_for :body_class, player_theme(@screen.theme_player)
 = turbo_stream_from @screen.game
 
 .phone data-testid="phone-screen"

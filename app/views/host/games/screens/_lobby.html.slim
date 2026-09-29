@@ -21,7 +21,7 @@
     - else
       ul.roster
         - screen.lobby_players.each do |player|
-          li.roster__item data-testid=dom_id(player)
+          li.roster__item class=player_theme(player) data-testid=dom_id(player)
             - if player.avatar
               = render 'players/avatar', avatar: player.avatar, size: :medium, label: player.avatar_label
             - else

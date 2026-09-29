@@ -1,7 +1,7 @@
 - round = game.current_round
 ul.roster.roster--stage
   - round.seats.includes(:player).order('players.name').each do |seat|
-    li.roster__item class=('roster__item--out' if seat.out?) data-testid=dom_id(seat)
+    li.roster__item class=[('roster__item--out' if seat.out?), player_theme(seat.player)] data-testid=dom_id(seat)
       = render 'players/avatar', avatar: seat.avatar, size: :medium, label: seat.avatar_label
       span.roster__name = seat.name
       - if seat.out?
