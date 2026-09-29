@@ -1,0 +1,38 @@
+- content_for :title, 'Rules'
+
+article.prose
+  = link_to 'Back', (request.referer.presence || root_path), class: 'btn btn--small btn--no-border prose__back'
+  h1 Rules
+
+  h2 Players
+  ul
+    li 3 to 20 players. The host sets the limit and runs the big screen but doesn't play.
+    li <strong>Insiders</strong> get the secret word. <strong>Imposters</strong> get only a hint.
+    li Imposters are picked at random each round, within the range the host chose: at most 1 for every 3 players, and never more than 6.
+
+  h2 A round
+  ol
+    li Everyone privately looks at their word or hint.
+    li The group goes around the table 2, 3, 5 or 7 times, depending on the game settings. Each trip, everyone gives one clue.
+    li After each trip there's a discussion (timed or not), then a vote.
+
+  h2 Voting
+  ul
+    li Vote for any player still in, or Skip. You can change your vote until voting closes.
+    li Voting closes when everyone still in has voted, or when the host ends it. Anyone who hasn't voted counts as Skip.
+    li The player with the most votes is out. If Skip has the most votes, or there's a tie, nobody is out.
+    li Depending on the settings, the big screen either reveals whether the player was an imposter or keeps it secret.
+    li Depending on the settings, the big screen either shows who voted for whom or keeps votes anonymous.
+
+  h2 Winning a round
+  ul
+    li <strong>Insiders win</strong> as soon as every imposter is out. Every Insider scores 1 point, including those voted out.
+    li <strong>Imposters win</strong> as soon as it's down to one imposter and one Insider, or only imposters are left.
+    li <strong>Imposters also win</strong> if at least one of them is still in after the last trip's vote. Every imposter scores 1 point, including those voted out.
+    li Players the host removed from the round don't score that round.
+
+  h2 The game
+  ul
+    li The host picks 1 to 15 rounds. Every round gets a new word and new imposters, and a word never repeats in the same game.
+    li Most points after the last round wins. Ties share the win.
+    li Lost your phone? Join again with the same code and the same name, and you'll get your spot back.

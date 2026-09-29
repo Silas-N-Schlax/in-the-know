@@ -1,0 +1,28 @@
+- content_for :title, 'How to play'
+
+article.prose
+  = link_to 'Back', (request.referer.presence || root_path), class: 'btn btn--small btn--no-border prose__back'
+  h1 How to play
+  p.prose__lede Everyone gets the same secret word, except the imposters, who only get a hint. Figure out who's faking it before they blend in.
+
+  ol.steps
+    li.steps__item
+      h2 Join
+      p Scan the code on the big screen or go to the home page, type the 4-letter code and your name, then pick an animal.
+    li.steps__item
+      h2 Look at your word
+      p Your phone shows the secret word. If you're an imposter it shows a hint instead, like "Flat and round" for Pancake. The hint might even be a little misleading. Everyone can see the category.
+    li.steps__item
+      h2 Go around the table
+      p Take turns saying one word or short phrase about the secret word. Insiders want to prove they know it without giving it away. Imposters want to sound like they know it.
+    li.steps__item
+      h2 Talk, then vote
+      p After each trip around the table, discuss and vote on your phone for who you think is an imposter, or Skip. The player with the most votes is out. A tie or Skip means nobody is.
+    li.steps__item
+      h2 Score
+      p If every imposter is caught, every Insider gets a point. If an imposter is still in when the trips run out, every imposter gets a point. New round, new word, new imposters.
+
+  h2 No phone? No problem
+  p The host can make any phone a backup. The backup phone adds people who don't have one and gets passed around: "Pass to Otter", tap to see your word, then "Got it".
+
+  p = link_to 'Read the full rules', rules_path
