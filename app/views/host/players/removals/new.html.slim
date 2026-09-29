@@ -1,0 +1,23 @@
+- content_for :modal_header do
+  h2.modal__title Remove #{@player.name}?
+
+= form_with url: host_player_removal_path(@player), id: 'removal-form', class: 'stack' do |f|
+  - if @game.lobby?
+    p #{@player.name} will leave the lobby and their animal frees up.
+  - else
+    p It counts like being voted out. If they were the last imposter, the Insiders win the round.
+    fieldset.removal-choice
+      legend.form-label How long?
+      label.removal-choice__option
+        = f.radio_button :scope, 'round', checked: true
+        span
+          strong Just this round
+          span.form-hint They're back in when the next round is dealt.
+      label.removal-choice__option
+        = f.radio_button :scope, 'game'
+        span
+          strong Rest of the game
+          span.form-hint They're done. They keep the points they already have.
+
+- content_for :modal_footer do
+  = button_tag 'Remove', form: 'removal-form', class: 'btn btn--destructive'
