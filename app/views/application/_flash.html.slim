@@ -1,0 +1,6 @@
+#flash data-turbo-temporary="true"
+  - flash.each do |type, message|
+    - if message.present?
+      .alert.alert--flash.no-print class="alert--#{type}" role="alert"
+        .alert__messages
+          .alert__description = message

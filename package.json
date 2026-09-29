@@ -1,0 +1,39 @@
+{
+  "name": "imposter_game",
+  "packageManager": "yarn@4.18.1",
+  "devDependencies": {
+    "@csstools/postcss-sass": "^5.1.1",
+    "css-loader": "^7.1.5",
+    "css-minimizer-webpack-plugin": "^8.0.0",
+    "esbuild": "^0.28.2",
+    "esbuild-loader": "^4.5.0",
+    "eslint": "^10.11.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-import-resolver-webpack": "^0.13.11",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "mini-css-extract-plugin": "^2.10.2",
+    "playwright": "^1.63.0",
+    "postcss": "^8.5.28",
+    "postcss-loader": "^8.2.1",
+    "postcss-preset-env": "^11.5.4",
+    "postcss-scss": "^4.0.9",
+    "strip-sourcemap-loader": "^0.0.1",
+    "webpack": "^5.111.1",
+    "webpack-cli": "^7.2.3"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.23",
+    "@rails/request.js": "^0.0.13",
+    "@rolemodel/optics": "^2.4.0",
+    "@rolemodel/turbo-confirm": "^2.2.4"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "eslint": "eslint 'app/**/*.js' 'spec/**/*.js'"
+  }
+}

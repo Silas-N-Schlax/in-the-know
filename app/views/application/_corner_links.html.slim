@@ -1,0 +1,8 @@
+nav.corner-links aria-label="Help"
+  .corner-links__start
+    = yield :corner_start
+  .corner-links__end
+    = link_to 'How to play', how_to_play_path, class: 'btn btn--small btn--pill'
+    = link_to 'Rules', rules_path, class: 'btn btn--small btn--pill'
+    button.btn.btn--small.btn--pill.btn--icon type="button" data-controller="theme" data-action="theme#toggle" aria-label="Switch light or dark theme" title="Switch theme"
+      = icon('circle-half', size: :small)

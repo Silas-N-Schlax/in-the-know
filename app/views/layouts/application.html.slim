@@ -1,0 +1,11 @@
+doctype html
+html lang="en"
+  head = render 'head'
+  body.app-body class=content_for(:body_class)
+    = render 'flash'
+    = turbo_frame_tag 'modal'
+    = render 'confirm'
+    = yield :header
+    main.app__content
+      = yield
+    = render 'application/corner_links'

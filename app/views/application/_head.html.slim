@@ -1,0 +1,26 @@
+title = content_for?(:title) ? "#{yield(:title)} · In the Know" : 'In the Know'
+
+= csrf_meta_tags
+= csp_meta_tag
+
+meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"
+meta name="turbo-refresh-method" content="morph"
+meta name="turbo-refresh-scroll" content="preserve"
+meta name="apple-mobile-web-app-capable" content="yes"
+meta name="mobile-web-app-capable" content="yes"
+meta name="theme-color" content="#1c1a2e"
+
+link rel="manifest" href=pwa_manifest_path(format: :json)
+link rel="icon" href="/icon.png" type="image/png"
+link rel="apple-touch-icon" href="/icon.png"
+link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css"
+
+/ Apply the saved theme before first paint so there is no flash of the wrong theme.
+javascript:
+  try { const mode = localStorage.getItem('theme-mode'); if (mode) document.documentElement.dataset.themeMode = mode } catch (e) {}
+
+= stylesheet_link_tag 'application', 'data-turbo-track': 'reload'
+= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
+
+= yield :head
