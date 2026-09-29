@@ -1,0 +1,25 @@
+- voter = screen.next_to_vote
+- round = game.current_round
+= render 'devices/status_bar', game:, player:
+
+- if screen.backup? && params[:voter].to_i != voter.id
+  .handoff
+    = render 'players/avatar', avatar: voter.avatar, size: 'x-large', label: voter.avatar_label
+    h1.handoff__name Pass the phone to #{voter.name}
+    p.handoff__hint It's their turn to vote.
+    = link_to "I'm #{voter.name}, vote", play_path(voter: voter.id), class: 'btn btn--primary btn--large handoff__go'
+- else
+  .phone__header
+    h1.phone__title
+      = screen.backup? ? "#{voter.name}, who's the imposter?" : "Who's the imposter?"
+    p.phone__lede Tap to vote. You can change it until voting closes.
+
+  ul.vote-grid
+    - screen.vote_choices.each do |choice|
+      - next if choice == voter
+      li
+        = button_to play_ballots_path, params: { voter_seat_id: voter.id, target_seat_id: choice.id }, class: 'vote-grid__choice' do
+          = render 'players/avatar', avatar: choice.avatar, size: :large, label: choice.avatar_label
+          span.vote-grid__name = choice.name
+    li.vote-grid__skip
+      = button_to 'Skip', play_ballots_path, params: { voter_seat_id: voter.id }, class: 'vote-grid__choice vote-grid__choice--skip'

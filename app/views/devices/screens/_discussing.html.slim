@@ -1,0 +1,17 @@
+- round = game.current_round
+= render 'devices/status_bar', game:, player:
+
+.phone__header
+  h1.phone__title Talk it out
+  p.phone__lede Category: #{round.category}
+
+- if game.timed? && round.discussion_ends_at
+  .timer.timer--compact data-controller="countdown" data-countdown-ends-at-value=round.discussion_ends_at.iso8601
+    span.timer__clock data-countdown-target="clock" = Time.at(round.seconds_left).utc.strftime('%-M:%S')
+    span.timer__label until voting
+
+- if !screen.backup? && screen.own_seat
+  .peek data-controller="peek"
+    button.btn.peek__button type="button" data-action="pointerdown->peek#show pointerup->peek#hide pointerleave->peek#hide pointercancel->peek#hide keydown.enter->peek#show keyup.enter->peek#hide"
+      | Hold to peek at your #{screen.own_seat.imposter? ? 'hint' : 'word'}
+    p.peek__secret hidden=true data-peek-target="secret" = screen.own_seat.secret

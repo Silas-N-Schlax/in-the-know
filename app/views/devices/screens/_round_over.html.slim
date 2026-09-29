@@ -1,0 +1,20 @@
+- round = game.current_round
+= render 'devices/status_bar', game:, player:
+
+.round-over class="round-over--#{round.winner}"
+  p.round-over__winner = round.won_by_insiders? ? 'Insiders win!' : 'Imposters win!'
+  p.round-over__word
+    | The word was
+    span.round-over__secret<> = round.word
+
+  ul.my-results
+    - screen.device_players.each do |device_player|
+      - seat = round.seats.find_by(player: device_player)
+      - next unless seat
+      li.my-results__row
+        span.my-results__who = screen.backup? ? device_player.name : 'You'
+        span.my-results__role = seat.imposter? ? 'Imposter' : 'Insider'
+        span.my-results__points class=('my-results__points--scored' if seat.points_earned.positive?)
+          = seat.points_earned.positive? ? '+1 point' : 'No point'
+
+  p.phone__hint Waiting for the host to deal the next round.

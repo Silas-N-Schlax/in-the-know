@@ -1,0 +1,13 @@
+- seat = screen.next_to_reveal
+= render 'devices/status_bar', game:, player:
+
+.handoff
+  - if screen.backup?
+    = render 'players/avatar', avatar: seat.avatar, size: 'x-large', label: seat.avatar_label
+    h1.handoff__name Pass the phone to #{seat.name}
+    p.handoff__hint Only #{seat.name} should look at the next screen.
+  - else
+    = render 'players/avatar', avatar: seat.avatar, size: 'x-large', label: seat.avatar_label
+    h1.handoff__name Your note is here
+    p.handoff__hint Make sure nobody is looking over your shoulder.
+  = link_to 'Show my word', play_reveal_path(seat), class: 'btn btn--primary btn--large handoff__go'

@@ -1,0 +1,11 @@
+header.round-bar
+  .round-bar__where
+    span.round-bar__round = screen.round_label
+    - unless game.current_round.revealing? || game.current_round.finished?
+      span.round-bar__trip = screen.rotation_label
+  .round-bar__category
+    span.round-bar__label Category
+    span.round-bar__value = screen.category_label
+  .round-bar__actions
+    = button_to 'End game', host_game_finish_path(game), class: 'btn btn--small btn--no-border',
+      data: { turbo_confirm: 'End the game now? Scores so far become final.' }

@@ -1,0 +1,14 @@
+.stage__split
+  - if game.current_round&.finished?
+    = render 'host/games/round_outcome', game:
+  - else
+    .stage__center
+      h1.stage__title Game over
+  .stage__side
+    = render 'host/games/leaderboard', leaderboard: screen.leaderboard, title: 'Final scores'
+    - leaders = screen.leaderboard.leaders
+    - if leaders.any?
+      p.leaderboard__crown
+        = leaders.map { |row| row.player.name }.to_sentence
+        = leaders.size > 1 ? ' share the win' : ' wins the game'
+    = link_to 'New game', new_host_game_path, class: 'btn btn--primary btn--large'

@@ -1,0 +1,16 @@
+- round = game.current_round
+= render 'host/games/round_bar', screen:, game:
+
+.stage__center
+  h1.stage__title Everyone, check your phone
+  p.stage__lede Keep it to yourself. Imposters only get a hint.
+
+  - revealed = round.seats.count(&:revealed?)
+  .progress-dots aria-label="#{revealed} of #{round.seats.size} have looked"
+    - round.seats.includes(:player).order(:id).each do |seat|
+      span.progress-dots__dot class=('progress-dots__dot--done' if seat.revealed?) title=seat.name
+        = render 'players/avatar', avatar: seat.avatar, size: :small, label: seat.name
+  p.stage__count #{revealed} of #{round.seats.size} ready
+
+  = button_to 'Start discussion now', host_game_rotation_path(game), class: 'btn',
+    data: { turbo_confirm: 'Some players have not looked yet. Start anyway?' }

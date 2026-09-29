@@ -1,0 +1,12 @@
+- title = local_assigns.fetch(:title, 'Scores')
+section.leaderboard
+  h2.leaderboard__title = title
+  ol.leaderboard__list
+    - leaderboard.rows.each do |row|
+      li.leaderboard__row class=('leaderboard__row--first' if row.rank == 1 && row.points.positive?) data-testid=dom_id(row.player, :score)
+        span.leaderboard__rank = row.rank
+        = render 'players/avatar', avatar: row.player.avatar, size: :small, label: row.player.avatar_label
+        span.leaderboard__name = row.player.name
+        - if row.scored_last_round
+          span.leaderboard__gain +1
+        span.leaderboard__points = row.points

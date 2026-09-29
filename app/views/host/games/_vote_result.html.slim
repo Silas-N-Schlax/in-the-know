@@ -1,0 +1,35 @@
+- round = game.current_round
+- out = round.last_voted_out_seat
+.vote-result
+  - case round.last_vote_outcome
+  - when 'voted_out'
+    = render 'players/avatar', avatar: out.avatar, size: 'x-large', label: out.avatar_label
+    h1.stage__title #{out.name} is out
+    - if game.reveal_on_vote_out?
+      p.vote-result__role class="vote-result__role--#{out.role}"
+        = out.imposter? ? "#{out.name} was an imposter!" : "#{out.name} was an Insider."
+  - when 'tied'
+    h1.stage__title Nobody is out
+    p.stage__lede It was a tie.
+  - when 'skipped'
+    h1.stage__title Nobody is out
+    p.stage__lede Skip got the most votes.
+
+  - ballots = round.ballots.for_rotation(round.current_rotation).includes(voter_seat: :player, target_seat: :player)
+  - if ballots.any?
+    ul.ballot-list aria-label="Votes"
+      - ballots.group_by(&:target_seat).sort_by { |_seat, list| -list.size }.each do |target, list|
+        li.ballot-list__row
+          span.ballot-list__target
+            - if target
+              = render 'players/avatar', avatar: target.avatar, size: :small, label: target.name
+              span = target.name
+            - else
+              span.ballot-list__skip Skip
+          span.ballot-list__voters
+            - list.each do |ballot|
+              - if game.votes_open?
+                = render 'players/avatar', avatar: ballot.voter_seat.avatar, size: 'x-small', label: ballot.voter_seat.name
+              - else
+                = render 'players/avatar', avatar: Player::ANONYMOUS_AVATAR, size: 'x-small', label: 'Anonymous vote'
+          span.ballot-list__count = list.size

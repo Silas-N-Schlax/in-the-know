@@ -1,0 +1,18 @@
+- round = game.current_round
+- ballots = round.ballots.for_rotation(round.current_rotation).includes(target_seat: :player).index_by(&:voter_seat_id)
+= render 'devices/status_bar', game:, player:
+
+.phone__header
+  h1.phone__title Vote in
+  p.phone__lede Waiting for everyone else. Look up at the big screen.
+
+ul.my-votes
+  - screen.device_players.each do |device_player|
+    - seat = round.seats.find_by(player: device_player)
+    - ballot = seat && ballots[seat.id]
+    - next unless ballot
+    li.my-votes__row
+      span.my-votes__who = screen.backup? ? device_player.name : 'You'
+      span.my-votes__for
+        = ballot.skip? ? 'skipped' : "voted for #{ballot.target_seat.name}"
+      = button_to 'Change vote', play_ballot_path(seat), method: :delete, class: 'btn btn--small'

@@ -1,0 +1,16 @@
+- content_for :title, 'Your word'
+
+.phone
+  .secret class="secret--#{@seat.role}"
+    p.secret__for = @seat.name
+    p.secret__category Category: #{@seat.round.category}
+    - if @seat.imposter?
+      p.secret__role You're the imposter
+      p.secret__label Your hint
+      p.secret__word = @seat.round.imposter_hint
+      p.secret__tip Blend in. Everyone else knows the real word.
+    - else
+      p.secret__label The word is
+      p.secret__word = @seat.round.word
+      p.secret__tip Give clues that prove you know it, without giving it away.
+  = button_to 'Got it', play_reveal_path(@seat), method: :patch, class: 'btn btn--primary btn--large secret-done'

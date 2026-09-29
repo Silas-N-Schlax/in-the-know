@@ -1,0 +1,12 @@
+- round = game.current_round
+- voted_ids = round.ballots.for_rotation(round.current_rotation).pluck(:voter_seat_id)
+= render 'host/games/round_bar', screen:, game:
+
+.stage__center
+  h1.stage__title Vote on your phones
+  p.stage__count #{voted_ids.size} of #{round.voters.count} voted
+
+  = button_to 'End vote', host_game_ballot_box_path(game), method: :delete, class: 'btn btn--large',
+    data: { turbo_confirm: "End the vote now? Anyone who hasn't voted counts as Skip." }
+
+  = render 'host/games/players_in', game:, voted_ids:

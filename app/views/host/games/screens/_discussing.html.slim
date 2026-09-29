@@ -1,0 +1,17 @@
+- round = game.current_round
+= render 'host/games/round_bar', screen:, game:
+
+.stage__center
+  h1.stage__title Go around the table
+  p.stage__lede Each player says one word or phrase about the secret word. Then talk it out.
+
+  - if game.timed? && round.discussion_ends_at
+    = form_with url: host_game_ballot_box_path(game), method: :post, class: 'timer',
+      data: { controller: 'countdown', countdown_ends_at_value: round.discussion_ends_at.iso8601, countdown_submit_value: true } do |f|
+      span.timer__clock data-countdown-target="clock" aria-live="off" = Time.at(round.seconds_left).utc.strftime('%-M:%S')
+      span.timer__label until voting opens
+      = f.submit 'Start vote', class: 'btn btn--primary btn--large'
+  - else
+    = button_to 'Start vote', host_game_ballot_box_path(game), class: 'btn btn--primary btn--large'
+
+  = render 'host/games/players_in', game:

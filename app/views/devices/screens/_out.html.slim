@@ -1,0 +1,8 @@
+= render 'devices/status_bar', game:, player:
+
+.out-screen
+  = render 'players/avatar', avatar: player.avatar, size: 'x-large', label: player.avatar_label
+  h1.out-screen__title You're out
+  p.out-screen__lede You can still watch, but keep your lips sealed until the round ends.
+  - if screen.own_seat&.insider?
+    p.out-screen__note If the Insiders win, you still get the point.

@@ -1,0 +1,5 @@
+= render 'host/games/round_bar', screen:, game:
+
+.stage__center
+  = render 'host/games/vote_result', game:
+  = button_to 'Next trip', host_game_rotation_path(game), class: 'btn btn--primary btn--large'

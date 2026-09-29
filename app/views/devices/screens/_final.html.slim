@@ -1,0 +1,13 @@
+- leaderboard = screen.leaderboard
+- mine = leaderboard.rows.find { |row| row.player == player }
+.phone__header
+  h1.phone__title Game over
+  - if game.current_round&.finished?
+    p.phone__lede = game.current_round.won_by_insiders? ? 'Insiders win the last round!' : 'Imposters win the last round!'
+  - if mine
+    p.final-rank
+      span.final-rank__place ##{mine.rank}
+      span.final-rank__points #{mine.points} #{'point'.pluralize(mine.points)}
+
+= render 'host/games/leaderboard', leaderboard:, title: 'Final scores'
+= link_to 'Join another game', root_path, class: 'btn btn--large'

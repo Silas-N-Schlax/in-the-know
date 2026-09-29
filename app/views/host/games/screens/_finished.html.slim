@@ -1,0 +1,7 @@
+= render 'host/games/round_bar', screen:, game:
+
+.stage__split
+  = render 'host/games/round_outcome', game:
+  .stage__side
+    = render 'host/games/leaderboard', leaderboard: screen.leaderboard
+    = button_to "Deal round #{game.current_round.number + 1}", host_game_rounds_path(game), class: 'btn btn--primary btn--large'
