@@ -16,8 +16,16 @@ export default class extends Controller {
     clearInterval(this.timer)
   }
 
+  // A live page refresh can connect this controller before its end time is filled in; tick again once it is.
+  endsAtValueChanged() {
+    this.tick()
+  }
+
   tick() {
-    const remaining = Math.max(0, Math.ceil((new Date(this.endsAtValue) - Date.now()) / 1000))
+    const endsAt = Date.parse(this.endsAtValue)
+    if (Number.isNaN(endsAt) || !this.hasClockTarget) return
+
+    const remaining = Math.max(0, Math.ceil((endsAt - Date.now()) / 1000))
     const minutes = Math.floor(remaining / 60)
     const seconds = String(remaining % 60).padStart(2, '0')
 
